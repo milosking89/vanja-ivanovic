@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "astrology-site": {
+    "vanja-ivanovic": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/vanja-ivanovic",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -32,6 +33,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/vanja-ivanovic/",
               "budgets": [
                 {
                   "type": "initial",
