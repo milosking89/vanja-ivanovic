@@ -60,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "astrology-site:build:production"
+              "buildTarget": "vanja-ivanovic:build:production"
             },
             "development": {
-              "buildTarget": "astrology-site:build:development"
+              "buildTarget": "vanja-ivanovic:build:development"
             }
           },
           "defaultConfiguration": "development"

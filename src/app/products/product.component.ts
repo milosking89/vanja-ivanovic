@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import emailjs, { EmailJSResponseStatus, send } from 'emailjs-com';
 
 interface Product {
   id: number;
@@ -15,7 +16,7 @@ interface ContactForm {
   birthDate: string;
   birthTime: string;
   birthPlace: string;
-  consultationType: string;
+  productType: string;
   message: string;
 }
 
@@ -28,7 +29,8 @@ interface ContactForm {
 })
 export class ProductsComponent {
   cartItems: Product[] = [];
-  
+  showHoroscopeModal: boolean = false;
+
   products: Product[] = [
     {
       id: 1,
@@ -50,12 +52,12 @@ export class ProductsComponent {
     birthDate: '',
     birthTime: '',
     birthPlace: '',
-    consultationType: 'natal',
+    productType: '',
     message: ''
   };
 
   addToCart(product: Product) {
-    this.cartItems.push({...product});
+    this.cartItems.push({ ...product });
     alert(`✨ ${product.name} je dodato u korpu! ✨`);
   }
 
@@ -71,35 +73,81 @@ export class ProductsComponent {
   }
 
   isFormValid(): boolean {
-    return !!(this.contactForm.name && 
-             this.contactForm.email && 
-             this.contactForm.birthDate && 
-             this.contactForm.birthPlace);
+    return !!(this.contactForm.name &&
+      this.contactForm.email &&
+      this.contactForm.birthDate &&
+      this.contactForm.birthPlace);
   }
 
-  submitContactForm() {
-    if (this.isFormValid()) {
-      alert(`🌟 Zahtev poslat! 🌟\n\nHvala ${this.contactForm.name}!\nKontaktiraću vas uskoro na ${this.contactForm.email} sa detaljima o ${this.getConsultationTypeName()}.`);
-      
+  submitCartItems() {
+    if (this.cartItems.length > 0) {
+
+      //this.sendEmail(this.contactForm);
+
       this.contactForm = {
         name: '',
         email: '',
         birthDate: '',
         birthTime: '',
         birthPlace: '',
-        consultationType: 'natal',
+        productType: '',
         message: ''
       };
     }
   }
 
-  private getConsultationTypeName(): string {
-    const types: {[key: string]: string} = {
-      'natal': 'natalnoj karti',
-      'synastry': 'sinastiji',
-      'transit': 'tranzitnoj analizi',
-      'solar': 'solarnoj revoluciji'
-    };
-    return types[this.contactForm.consultationType] || 'konsultaciji';
+  sendEmail(contactForm: ContactForm) {
+    emailjs.send(
+      'service_0l30jep',
+      'template_tau0io5',
+      {
+        to_name: 'Vanja Ivanovic',
+        to_email: 'ivanovicvanja355@yahoo.com',
+        from_name: contactForm.name,
+        from_email: contactForm.email,
+        //birth_date: contactForm.birthDate,
+        //birth_time: contactForm.birthTime,
+        //birth_place: contactForm.birthPlace,
+        productType: contactForm.productType,
+        message: contactForm.message
+      },
+      'mzJxvFV2wfA985nV3'
+    )
+      .then((response: EmailJSResponseStatus) => {
+        console.log('Uspešno poslato!', response.status, response.text);
+      })
+      .catch((err) => {
+        console.error('Greška:', err);
+      });
+  }
+
+  // NOVE METODE za modal
+  openHoroscopeModal() {
+    this.showHoroscopeModal = true;
+  }
+
+  closeHoroscopeModal() {
+    this.showHoroscopeModal = false;
+  }
+
+  submitContactForm() {
+    if (this.isFormValid()) {
+      // Dodajte horoskop u korpu
+      this.addToCart(this.products[1]); // Personalizovani horoskop      
+  
+      // Resetuj formu
+      this.contactForm = {
+        name: '',
+        email: '',
+        birthDate: '',
+        birthTime: '',
+        birthPlace: '',
+        productType: 'natal',
+        message: ''
+      };
+      
+      // Zatvori modal
+      this.closeHoroscopeModal();
+    }
   }
 }

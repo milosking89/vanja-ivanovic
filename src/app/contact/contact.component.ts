@@ -57,8 +57,6 @@ export class ContactComponent {
         message: ''
       };
     }
-
-
   }
 
   sendEmail(contactForm: ContactForm)  {
