@@ -1,0 +1,33 @@
+<div class="home-container">
+  <h1>Astrološki Blog</h1>
+  <p class="intro">Dobrodošli u svet astrologije! Ovde ćete pronaći najnovije članke o horoskopu, planetama i kosmičkim uticajima.</p>
+  
+  <div class="blog-posts">
+    <article *ngFor="let post of blogPosts" class="blog-post">
+      <h3>{{ post.title }}</h3>
+      <div class="post-meta">
+        <span>📅 {{ post.date }}</span>
+        <span>✨ {{ post.category }}</span>
+      </div>
+      <p>{{ post.excerpt }}</p>
+      <div class="read-more">
+        <a href="#" (click)="expandPost(post)" class="btn">Čitaj više</a>
+      </div>
+    </article>
+  </div>
+  
+  <div class="add-post-section">
+    <h3>Dodaj novi post</h3>
+    <div class="post-form">
+      <input [(ngModel)]="newPost.title" placeholder="Naslov posta" class="input-field">
+      <select [(ngModel)]="newPost.category" class="input-field">
+        <option value="Horoskop">Horoskop</option>
+        <option value="Planete">Planete</option>
+        <option value="Tarot">Tarot</option>
+        <option value="Numerologija">Numerologija</option>
+      </select>
+      <textarea [(ngModel)]="newPost.excerpt" placeholder="Sadržaj posta..." class="input-field textarea"></textarea>
+      <button (click)="addPost()" class="btn">Objavi Post</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="products-container">
+  <h1>🌟 Konsultacija za Natalnu Kartu</h1>
+  <!-- Contact forma za natalnu kartu -->
+  <div class="contact-section">
+    <p>Želite detaljnu analizu vaše rođendanske karte? Kontaktirajte me za personalizovanu konsultaciju!</p>
+    
+    <form class="contact-form" (ngSubmit)="submitContactForm()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ime i prezime *</label>
+          <input [(ngModel)]="contactForm.name" name="name" type="text" required class="form-input" placeholder="Vaše ime">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input [(ngModel)]="contactForm.email" name="email" type="email" required class="form-input" placeholder="vas@email.com">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Datum rođenja *</label>
+          <input [(ngModel)]="contactForm.birthDate" name="birthDate" type="date" required class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Vreme rođenja</label>
+          <input [(ngModel)]="contactForm.birthTime" name="birthTime" type="time" class="form-input">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Mesto rođenja *</label>
+        <input [(ngModel)]="contactForm.birthPlace" name="birthPlace" type="text" required class="form-input" placeholder="Grad, zemlja">
+      </div>
+      
+      <div class="form-group">
+        <label>Dodatne informacije</label>
+        <textarea [(ngModel)]="contactForm.message" name="message" class="form-input textarea" 
+                  placeholder="Opišite šta vas posebno zanima ili na čemu biste želeli da se fokusiramo..."></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn" [disabled]="!isFormValid()">
+        📧 Pošaljite zahtev
+      </button>
+    </form>
+    
+    <div class="contact-info">
+      <p><strong>💫 Vreme izrade:</strong> 3-5 radnih dana</p>
+      <p><strong>📧 Dostava:</strong> PDF dokument na email</p>
+      <p><strong>🕐 Konsultacija:</strong> 60 minuta (opciono)</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="dice-container">   
+
+  <h1>Astrološke Kockice</h1>
+  <p class="intro">Bacite tri magične kockice i otkrijte šta vam zvezde poručuju!</p>
+
+  <div class="dice-section">
+    <div class="dice-grid">
+      <div class="dice" *ngFor="let dice of dices; let i = index" [class.rolling]="isRolling" (click)="rollDice()">
+        <div class="dice-face">
+          <div class="symbol">{{ dice.symbol }}</div>
+          <div class="name">{{ dice.name }}</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="roll-button" (click)="rollDice()" *ngIf="!hasRolled" [disabled]="isRolling">
+      {{ isRolling ? 'Kockice se vrte...' : '🎲 Baci Kockice 🎲' }}
+    </button>
+  </div>
+
+@if (reading?.advice) {
+  <div class="result-section">
+    <h3>Vaše čitanje:</h3>
+    <div class="reading-card">
+      <h4>{{ reading?.title }}</h4>
+      <p>{{ reading?.message }}</p>
+      <div class="advice">
+        <strong>Savet:</strong> {{ reading?.advice }}
+      </div>
+    </div>
+  </div>
+}
+
+  <div class="blog-posts" style="margin-top: 20px;">
+    <article *ngFor="let post of blogPosts" class="blog-post">
+      <h3>{{ post.title }}</h3>
+      <div class="post-meta">
+        <span>📅 {{ post.date }}</span>
+        <span>✨ {{ post.category }}</span>
+      </div>
+      <p>{{ post.excerpt }}</p>
+      <div class="read-more">
+        <a href="#" (click)="expandPost(post)" class="btn">Čitaj više</a>
+      </div>
+    </article>
+  </div>
+</div>

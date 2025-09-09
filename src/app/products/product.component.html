@@ -1,0 +1,82 @@
+<div class="products-container">
+  <h1>Astrološki Proizvodi</h1>
+  <p class="intro">Otkrijte našu kolekciju proizvoda koji će vam pomoći da se povežete sa kosmičkim energijama</p>
+  
+  <!-- Korpa -->
+  <div class="cart-section" *ngIf="cartItems.length > 0">
+    <h3>🛒 Korpa ({{ cartItems.length }})</h3>
+    <div class="cart-items">
+      <div *ngFor="let item of cartItems" class="cart-item">
+        <span>{{ item.name }}</span>
+        <span class="price">{{ item.price }} din</span>
+        <button (click)="removeFromCart(item)" class="remove-btn">✕</button>
+      </div>
+    </div>
+    <div class="cart-total">
+      <strong>Ukupno: {{ getCartTotal() }} din</strong>
+    </div>
+  </div>
+
+  <!-- Proizvodi -->
+  <div class="products-grid">
+    <!-- Sveće sa kristalima -->
+    <div class="product-card">
+      <div class="product-image">
+        <div class="image-placeholder candle-image">
+          <div class="candle-icon">🕯️</div>
+          <div class="crystals">💎✨💎</div>
+          <div class="flame">🔥</div>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Magične Sveće sa Kristalima</h3>
+        <p class="product-description">
+          Ručno pravljene sveće obogaćene kristalima koji pojačavaju astrološke energije. 
+          Svaka sveća sadrži pažljivo odabrane kristale koji odgovaraju različitim horoskopskim znakovima 
+          i planetarnim uticajima.
+        </p>
+        <div class="product-features">
+          <span class="feature">🌙 Prirodni vosak</span>
+          <span class="feature">💎 Autentični kristali</span>
+          <span class="feature">⏰ Gorenje 40h</span>
+          <span class="feature">🌟 12 različitih varijanti</span>
+        </div>
+        <div class="product-price">2,500 din</div>
+        <button (click)="addToCart(products[0])" class="add-to-cart-btn">
+          Dodaj u korpu 🛒
+        </button>
+      </div>
+    </div>
+
+    <!-- Mesečni horoskop -->
+    <div class="product-card">
+      <div class="product-image">
+        <div class="image-placeholder horoscope-image">
+          <div class="zodiac-wheel">
+            <div class="zodiac-signs">♈♉♊♋♌♍</div>
+            <div class="center-moon">🌙</div>
+            <div class="zodiac-signs bottom">♎♏♐♑♒♓</div>
+          </div>
+        </div>
+      </div>
+      <div class="product-info">
+        <h3>Personalizovani Mesečni Horoskop</h3>
+        <p class="product-description">
+          Detaljni mesečni horoskop napisan posebno za vas na osnovu vaše rođendanske karte. 
+          Uključuje prognoze za ljubav, karijeru, zdravlje i spiritualni razvoj sa praktičnim savetima 
+          za svaki dan u mesecu.
+        </p>
+        <div class="product-features">
+          <span class="feature">📅 30 dana prognoza</span>
+          <span class="feature">💝 Personalizovano</span>
+          <span class="feature">📧 Email dostava</span>
+          <span class="feature">📊 Tranzitna analiza</span>
+        </div>
+        <div class="product-price">1,800 din</div>
+        <button (click)="addToCart(products[1])" class="add-to-cart-btn">
+          Dodaj u korpu 🛒
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
