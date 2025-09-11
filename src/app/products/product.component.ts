@@ -17,6 +17,7 @@ interface ContactForm {
   birthTime: string;
   birthPlace: string;
   productType: string;
+  productCount: string;
   message: string;
 }
 
@@ -30,6 +31,7 @@ interface ContactForm {
 export class ProductsComponent {
   cartItems: Product[] = [];
   showHoroscopeModal: boolean = false;
+  isHoroscopeProduct: boolean = false; //da li je u pitanju sveca kao proizvod ili horposkop
 
   products: Product[] = [
     {
@@ -53,6 +55,7 @@ export class ProductsComponent {
     birthTime: '',
     birthPlace: '',
     productType: '',
+    productCount: '',
     message: ''
   };
 
@@ -82,7 +85,7 @@ export class ProductsComponent {
   submitCartItems() {
     if (this.cartItems.length > 0) {
 
-      //this.sendEmail(this.contactForm);
+      this.sendEmail(this.contactForm);
 
       this.contactForm = {
         name: '',
@@ -91,39 +94,58 @@ export class ProductsComponent {
         birthTime: '',
         birthPlace: '',
         productType: '',
+        productCount: this.cartItems.length.toString(),
         message: ''
       };
     }
+
+    this.cartItems = [];
   }
 
   sendEmail(contactForm: ContactForm) {
     emailjs.send(
       'service_0l30jep',
-      'template_tau0io5',
+      'template_crcmj5l',
       {
         to_name: 'Vanja Ivanovic',
         to_email: 'ivanovicvanja355@yahoo.com',
         from_name: contactForm.name,
         from_email: contactForm.email,
-        //birth_date: contactForm.birthDate,
-        //birth_time: contactForm.birthTime,
-        //birth_place: contactForm.birthPlace,
+        birth_date: contactForm.birthDate,
+        birth_time: contactForm.birthTime,
+        birth_place: contactForm.birthPlace,
         productType: contactForm.productType,
+        productCount: this.cartItems.length.toString(),
         message: contactForm.message
       },
       'mzJxvFV2wfA985nV3'
     )
       .then((response: EmailJSResponseStatus) => {
-        console.log('Uspešno poslato!', response.status, response.text);
+        this.contactForm = {
+          name: '',
+          email: '',
+          birthDate: '',
+          birthTime: '',
+          birthPlace: '',
+          productType: '',
+          productCount: this.cartItems.length.toString(),
+          message: ''
+      } ;
       })
       .catch((err) => {
         console.error('Greška:', err);
       });
   }
 
+  openProductModal() {
+    this.showHoroscopeModal = true;
+    this.isHoroscopeProduct = false;
+  }
+  
   // NOVE METODE za modal
   openHoroscopeModal() {
     this.showHoroscopeModal = true;
+    this.isHoroscopeProduct = true;
   }
 
   closeHoroscopeModal() {
@@ -133,18 +155,15 @@ export class ProductsComponent {
   submitContactForm() {
     if (this.isFormValid()) {
       // Dodajte horoskop u korpu
-      this.addToCart(this.products[1]); // Personalizovani horoskop      
-  
-      // Resetuj formu
-      this.contactForm = {
-        name: '',
-        email: '',
-        birthDate: '',
-        birthTime: '',
-        birthPlace: '',
-        productType: 'natal',
-        message: ''
-      };
+
+      if (this.isHoroscopeProduct){
+         this.contactForm.productType = 'Pesonalizovani mesecni horoskop';
+        this.addToCart(this.products[1]); // Personalizovani horoskop    
+      }
+      else {
+         this.contactForm.productType = 'Personalizovane svece';
+         this.addToCart(this.products[0]); // Personalizovani horoskop    
+      }
       
       // Zatvori modal
       this.closeHoroscopeModal();
