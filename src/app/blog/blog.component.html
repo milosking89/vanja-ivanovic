@@ -1,33 +1,87 @@
 <div class="home-container">
-  <h1>Astrološki Blog</h1>
+  <h1>🌟 Astrološki Blog</h1>
   <p class="intro">Dobrodošli u svet astrologije! Ovde ćete pronaći najnovije članke o horoskopu, planetama i kosmičkim uticajima.</p>
   
-  <div class="blog-posts">
-    <article *ngFor="let post of blogPosts" class="blog-post">
+  <!-- Firebase Status (samo za debug) -->
+  <div *ngIf="firebaseStatus !== 'Connected'" class="firebase-status">
+    Status: {{ firebaseStatus }}
+  </div>
+  
+  <!-- Statistics -->
+  <div class="blog-stats">
+    <div class="stat-item">
+      <span class="stat-number">{{ getTotalPosts() }}</span>
+      <span class="stat-label">Ukupno postova</span>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner">🌙</div>
+    <p>Učitavanje postova...</p>
+  </div>
+
+  <!-- Blog Posts -->
+  <div class="blog-posts" *ngIf="!isLoading">
+    <div *ngIf="posts.length === 0" class="no-posts">
+      <h3>📝 Nema objavljenih postova</h3>
+      <p>Budite prvi koji će podeliti astrološku mudrost!</p>
+    </div>
+
+    <article *ngFor="let post of posts" class="blog-post">
       <h3>{{ post.title }}</h3>
       <div class="post-meta">
         <span>📅 {{ post.date }}</span>
         <span>✨ {{ post.category }}</span>
       </div>
-      <p>{{ post.excerpt }}</p>
+      <p class="post-excerpt">{{ post.excerpt }}</p>
       <div class="read-more">
-        <a href="#" (click)="expandPost(post)" class="btn">Čitaj više</a>
+        <button (click)="expandPost(post)" class="btn btn-read">Čitaj više</button>
       </div>
     </article>
   </div>
-  
-  <div class="add-post-section">
-    <h3>Dodaj novi post</h3>
-    <div class="post-form">
-      <input [(ngModel)]="newPost.title" placeholder="Naslov posta" class="input-field">
-      <select [(ngModel)]="newPost.category" class="input-field">
-        <option value="Horoskop">Horoskop</option>
-        <option value="Planete">Planete</option>
-        <option value="Tarot">Tarot</option>
-        <option value="Numerologija">Numerologija</option>
-      </select>
-      <textarea [(ngModel)]="newPost.excerpt" placeholder="Sadržaj posta..." class="input-field textarea"></textarea>
-      <button (click)="addPost()" class="btn">Objavi Post</button>
-    </div>
+
+  <!-- Add Post Section -->
+  <div class="add-post-section" *ngIf="isBrowser">
+    <h3>✍️ Dodaj novi post</h3>
+    <p class="form-description">Podelite svoju astrološku mudrost sa svima!</p>
+    
+    <form class="post-form" (ngSubmit)="addPost()" #postForm="ngForm">
+      <div class="form-group">
+        <label for="title">Naslov posta *</label>
+        <input 
+          id="title"
+          [(ngModel)]="newPost.title" 
+          name="title"
+          placeholder="Unesite naslov vašeg posta..." 
+          class="input-field"
+          required
+          maxlength="100">
+        <small class="char-count">{{ newPost.title.length }}/100</small>
+      </div>
+
+      <div class="form-group">
+        <label for="excerpt">Sadržaj posta *</label>
+        <textarea 
+          id="excerpt"
+          [(ngModel)]="newPost.excerpt" 
+          name="excerpt"
+          placeholder="Napišite vaš post ovde... Podelite svoju astrološku mudrost, savete ili razmišljanja o kosmičkim uticajima."
+          class="input-field textarea"
+          required
+          maxlength="1000"
+          rows="6"></textarea>
+        <small class="char-count">{{ newPost.excerpt.length }}/1000</small>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="isSubmitting || !postForm.form.valid"
+        [class.loading]="isSubmitting">
+        <span *ngIf="!isSubmitting">🚀 Objavi Post</span>
+        <span *ngIf="isSubmitting">📤 Objavljivanje...</span>
+      </button>
+    </form>
   </div>
 </div>

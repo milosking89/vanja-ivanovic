@@ -1,59 +1,154 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef  } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+// Direktan Firebase import
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc, getDocs, orderBy, query, Timestamp } from 'firebase/firestore';
+import { environment } from '../../environments/environment';
+
 interface BlogPost {
+  id?: string;
   title: string;
-  date: string;
   category: string;
   excerpt: string;
+  date: string;
+  createdAt?: any;
 }
 
 @Component({
-  selector: 'app-home',
-  standalone: true,                   
+  selector: 'app-blog',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css']
 })
-export class BlogCompoennt {
-  blogPosts: BlogPost[] = [
-    {
-      title: 'Mesečni horoskop za septembar 2025',
-      date: '1. septembar 2025',
-      category: 'Horoskop',
-      excerpt: 'Septembar donosi velike promene za sve horoskopske znakove. Mars u Lavu aktivira vašu kreativnost, dok Venera u Vagi donosi harmoniju u odnose...'
-    },
-    {
-      title: 'Uticaj Saturna na vaš životni put',
-      date: '28. avgust 2025',
-      category: 'Planete',
-      excerpt: 'Saturn, planeta ograničenja i lekcija, trenutno prolazi kroz važan tranzit. Saznajte kako ovaj uticaj može da transformiše vaš pristup odgovornostima...'
-    },
-    {
-      title: 'Numerologija imena - kako vaše ime utiče na sudbinu',
-      date: '25. avgust 2025',
-      category: 'Numerologija',
-      excerpt: 'Svako slovo u vašem imenu nosi određenu numerološku vrednost. Otkrijte skriveno značenje vašeg imena i kako ono oblikuje vašu ličnost...'
-    }
-  ];
-
+export class BlogComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+   private cdr = inject(ChangeDetectorRef);
+  firebaseStatus = 'Loading...';
+  isBrowser = false;
+  isLoading = false;
+  isSubmitting = false;
+  posts: BlogPost[] = [];
+  private db: any;
+  
   newPost: BlogPost = {
     title: '',
-    date: '',
     category: 'Horoskop',
-    excerpt: ''
+    excerpt: '',
+    date: ''
   };
 
-  addPost() {
-    if (this.newPost.title && this.newPost.excerpt) {
-      this.newPost.date = new Date().toLocaleDateString('sr-RS');
-      this.blogPosts.unshift({...this.newPost});
-      this.newPost = { title: '', date: '', category: 'Horoskop', excerpt: '' };
+  ngOnInit() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    
+    if (this.isBrowser) {
+      try {
+        const app = initializeApp(environment.firebaseConfig);
+        this.db = getFirestore(app);
+        this.firebaseStatus = 'Connected';
+        this.loadPosts();
+      } catch (error) {
+        console.error('Firebase error:', error);
+        this.firebaseStatus = 'Error: ' + error;
+      }
     }
   }
 
+async loadPosts() {
+    if (!this.db) return;
+    
+    this.isLoading = true;
+    this.cdr.detectChanges(); // Prikaži loading state
+    
+    try {
+      const querySnapshot = await getDocs(collection(this.db, 'posts'));
+      
+      let posts = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      } as BlogPost));
+      
+      this.posts = posts;
+      console.log(`Loaded ${posts.length} posts`);
+      
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges(); // Ažuriraj UI
+    }
+  }
+  
+  async addPost() {
+    if (!this.db || !this.newPost.title.trim() || !this.newPost.excerpt.trim()) {
+      alert('Molimo unesite naslov i sadržaj posta!');
+      return;
+    }
+
+    this.isSubmitting = true;
+    try {
+      await addDoc(collection(this.db, 'posts'), {
+        title: this.newPost.title.trim(),
+        category: this.newPost.category,
+        excerpt: this.newPost.excerpt.trim(),
+        date: new Date().toLocaleDateString('sr-RS'),
+        createdAt: new Date()
+      });
+      
+      // Resetuj formu
+      this.newPost = { 
+        title: '', 
+        category: 'Horoskop', 
+        excerpt: '', 
+        date: '' 
+      };
+      
+      this.showSuccessMessage();
+      this.loadPosts(); // Reload posts
+      
+    } catch (error) {
+      console.error('Error adding post:', error);
+      alert('Greška pri dodavanju posta. Pokušajte ponovo.');
+    }
+    this.isSubmitting = false;
+    
+  }
+
   expandPost(post: BlogPost) {
-    alert(`Čitanje posta: "${post.title}"\n\n${post.excerpt}\n\n(Ovde bi bio kompletan sadržaj posta)`);
+    alert(`📖 Čitanje posta: "${post.title}"\n\n${post.excerpt}\n\n✨ Kategorija: ${post.category}\n📅 Objavljeno: ${post.date}\n\n(Ovde bi bio kompletan sadržaj posta)`);
+  }
+
+  private showSuccessMessage() {
+    if (!this.isBrowser) return;
+    
+    const toast = document.createElement('div');
+    toast.innerHTML = '✨ Post je uspešno objavljen! ✨';
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(45deg, #ffd700, #ffb347);
+      color: #1a1a2e;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      if (document.body.contains(toast)) {
+        document.body.removeChild(toast);
+      }
+    }, 3000);
+  }
+
+  // Utility metode
+  getTotalPosts(): number {
+    return this.posts.length;
   }
 }
