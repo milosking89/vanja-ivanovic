@@ -1,6 +1,11 @@
-import { Component, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, NgZone, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+// Direktan Firebase import
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc, getDocs, orderBy, query, Timestamp } from 'firebase/firestore';
+import { environment } from '../../environments/environment';
 
 interface DiceOption {
   symbol: string;
@@ -21,6 +26,15 @@ interface BlogPost {
   excerpt: string;
 }
 
+interface BlogPost {
+  id?: string;
+  title: string;
+  category: string;
+  excerpt: string;
+  date: string;
+  createdAt?: any;
+}
+
 @Component({
   selector: 'app-dice',
   standalone: true,
@@ -33,10 +47,19 @@ export class HomeComponent {
   reading: Reading | null = null;
   hasRolled = false;
 
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+  firebaseStatus = 'Loading...';
+  isBrowser = false;
+  isLoading = false;
+  isSubmitting = false;
+  latestPost: BlogPost | null = null;
+  private db: any;
+
   constructor(
     private zone: NgZone,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   // Baza podataka za Da/Ne kombinacije (iz vašeg dokumenta)
   private yesNoDatabase: { [key: string]: 'Da' | 'Ne' } =
@@ -689,7 +712,7 @@ export class HomeComponent {
 
   rollDice() {
     if (this.isRolling) return;
-    
+
     this.isRolling = true;
     this.reading = null;
 
@@ -713,18 +736,18 @@ export class HomeComponent {
 
   private generateReading() {
     const [planet, sign, house] = this.dices;
-    
+
     // Kreiranje ključa za lookup u bazi podataka
     const houseNumber = house.name.replace('.kuća', '');
     const lookupKey = `${planet.name}_${sign.name}_${houseNumber}`;
-    
+
     // Dobijanje Da/Ne odgovora iz baze podataka
     const answer = this.yesNoDatabase[lookupKey] || 'Ne';
-    
+
     // Kreiranje personalizovanog čitanja
     const answerEmoji = answer === 'Da' ? '✅' : '❌';
     const encouragement = answer === 'Da' ? 'Zvezde su naklonjene!' : 'Sačekajte bolji trenutak.';
-    
+
     this.reading = {
       title: `Odgovor: ${answer} ${answerEmoji}`,
       message: `${planet.name} u znaku ${sign.name} kroz ${house.name} ${answer === 'Da' ? 'favorizuje' : 'ne favorizuje'} vašu želju. ${encouragement}`,
@@ -740,14 +763,46 @@ export class HomeComponent {
     }
   }
 
-  blogPosts: BlogPost[] = [
-    {
-      title: 'Dnevni horoskop za septembar 2025',
-      date: '15. septembar 2025',
-      category: 'Horoskop',
-      excerpt: 'Danas planetarne energije favorizuju nove početke. Mars u harmoničnom aspektu sa Jupiterom donosi energiju za ostvarivanje ciljeva, dok Venus u Vagi podstiče harmoniju u odnosima...'
+  ngOnInit() {
+
+    try {
+      const app = initializeApp(environment.firebaseConfig);
+      this.db = getFirestore(app);
+      this.firebaseStatus = 'Connected';
+      this.loadPosts();
+    } catch (error) {
+      console.error('Firebase error:', error);
+      this.firebaseStatus = 'Error: ' + error;
     }
-  ];
+  }
+
+  async loadPosts() {
+    if (!this.db) return;
+
+    this.isLoading = true;
+    this.cdr.detectChanges();
+
+    try {
+      const querySnapshot = await getDocs(collection(this.db, 'posts'));
+
+      const posts = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      } as BlogPost));
+
+      const sorted = posts.sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
+
+      this.latestPost = sorted[0] ?? null; // uzmi samo prvi (najnoviji)
+
+      console.log('Latest post:', this.latestPost);
+
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
+  }
 
   newPost: BlogPost = {
     title: '',
@@ -756,7 +811,90 @@ export class HomeComponent {
     excerpt: ''
   };
 
+  expandedPostId: number | null = null;
+
   expandPost(post: BlogPost) {
-    alert(`Čitanje posta: "${post.title}"\n\n${post.excerpt}\n\n(Ovde bi bio kompletan sadržaj posta)`);
+    const newTab = window.open('', '_blank');
+    if (newTab) {
+      newTab.document.write(`
+      <html>
+        <head>
+          <title>${post.title}</title>
+          <style>
+            body {
+              margin: 0;
+              min-height: 100vh;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              color: #fff;
+            }
+            .container {
+              max-width: 700px;
+              padding: 2rem;
+              margin: 1rem;
+              background: rgba(255, 255, 255, 0.08);
+              border: 1px solid rgba(255, 215, 0, 0.3);
+              border-radius: 20px;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+              box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+              animation: fadeIn 0.4s ease-in-out;
+            }
+            h1 {
+              color: #ffd700;
+              font-size: 2rem;
+              margin-bottom: 0.5rem;
+            }
+            .meta {
+              font-size: 0.9rem;
+              color: rgba(255, 255, 255, 0.7);
+              margin-bottom: 1rem;
+            }
+            .content {
+              font-size: 1.1rem;
+              line-height: 1.6;
+              margin-top: 1rem;
+            }
+            @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(10px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            a.back-link {
+              display: inline-block;
+              margin-top: 1.5rem;
+              text-decoration: none;
+              background: linear-gradient(45deg, #ffd700, #ffb700);
+              color: #1a1a2e;
+              font-weight: bold;
+              padding: 0.6rem 1.2rem;
+              border-radius: 10px;
+              box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+              transition: background 0.3s ease, transform 0.2s ease;
+            }
+            a.back-link:hover {
+              background: linear-gradient(45deg, #ffe44d, #ffc107);
+              transform: scale(1.05);
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>${post.title}</h1>
+            <div class="meta">
+              📅 ${post.date} &nbsp; | &nbsp; ✨ ${post.category}
+            </div>
+            <div class="content">${post.excerpt}</div>
+            <a href="javascript:window.close()" class="back-link">🔙 Zatvori prozor</a>
+          </div>
+        </body>
+      </html>
+    `);
+      newTab.document.close();
+    }
   }
+
+
 }

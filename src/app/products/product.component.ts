@@ -8,6 +8,7 @@ interface Product {
   name: string;
   price: number;
   description: string;
+  contactForm?: ContactForm;
 }
 
 interface ContactForm {
@@ -43,7 +44,7 @@ export class ProductsComponent {
     {
       id: 2,
       name: 'Personalizovani Mesečni Horoskop',
-      price: 1800,
+      price: 5000,
       description: 'Detaljni mesečni horoskop napisan posebno za vas'
     }
   ];
@@ -60,9 +61,17 @@ export class ProductsComponent {
   };
 
   addToCart(product: Product) {
-    this.cartItems.push({ ...product });
+    // Kreiraj kopiju proizvoda i upiši trenutni contactForm
+    const productWithForm: Product = {
+      ...product,
+      contactForm: { ...this.contactForm } // kopiramo formu da ne mutiramo original
+    };
+
+    this.cartItems.push(productWithForm);
+
     alert(`✨ ${product.name} je dodato u korpu! ✨`);
   }
+
 
   removeFromCart(product: Product) {
     const index = this.cartItems.findIndex(item => item.id === product.id);
@@ -84,22 +93,14 @@ export class ProductsComponent {
 
   submitCartItems() {
     if (this.cartItems.length > 0) {
+      this.cartItems.forEach(product => {
+        if (product.contactForm) {
+          this.sendEmail(product.contactForm);
+        }
+      });
 
-      this.sendEmail(this.contactForm);
-
-      this.contactForm = {
-        name: '',
-        email: '',
-        birthDate: '',
-        birthTime: '',
-        birthPlace: '',
-        productType: '',
-        productCount: this.cartItems.length.toString(),
-        message: ''
-      };
+      this.cartItems = [];
     }
-
-    this.cartItems = [];
   }
 
   sendEmail(contactForm: ContactForm) {
@@ -115,37 +116,34 @@ export class ProductsComponent {
         birth_time: contactForm.birthTime,
         birth_place: contactForm.birthPlace,
         productType: contactForm.productType,
-        productCount: this.cartItems.length.toString(),
+        productCount: 1, //saljemo 1 po 1 zahtev
         message: contactForm.message
       },
       'mzJxvFV2wfA985nV3'
     )
       .then((response: EmailJSResponseStatus) => {
-        this.contactForm = {
-          name: '',
-          email: '',
-          birthDate: '',
-          birthTime: '',
-          birthPlace: '',
-          productType: '',
-          productCount: this.cartItems.length.toString(),
-          message: ''
-      } ;
+
+        this.showSuccessMessage();
+
+        this.clearForm();
+
       })
       .catch((err) => {
-        console.error('Greška:', err);
+        this.showErrorMessage();
       });
   }
 
   openProductModal() {
     this.showHoroscopeModal = true;
     this.isHoroscopeProduct = false;
+    this.clearForm();
   }
-  
+
   // NOVE METODE za modal
   openHoroscopeModal() {
     this.showHoroscopeModal = true;
     this.isHoroscopeProduct = true;
+    this.clearForm();
   }
 
   closeHoroscopeModal() {
@@ -156,17 +154,82 @@ export class ProductsComponent {
     if (this.isFormValid()) {
       // Dodajte horoskop u korpu
 
-      if (this.isHoroscopeProduct){
-         this.contactForm.productType = 'Pesonalizovani mesecni horoskop';
+      if (this.isHoroscopeProduct) {
+        this.contactForm.productType = 'Pesonalizovani mesecni horoskop';
         this.addToCart(this.products[1]); // Personalizovani horoskop    
       }
       else {
-         this.contactForm.productType = 'Personalizovane svece';
-         this.addToCart(this.products[0]); // Personalizovani horoskop    
+        this.contactForm.productType = 'Personalizovane svece';
+        this.addToCart(this.products[0]); // Personalizovane svece    
       }
-      
+
       // Zatvori modal
       this.closeHoroscopeModal();
     }
+  }
+
+  private showSuccessMessage() {
+
+    const toast = document.createElement('div');
+    toast.innerHTML = '✨ Vaš zahtev je uspešno poslat! ✨';
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(45deg, #ffd700, #ffb347);
+      color: #1a1a2e;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    `;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      if (document.body.contains(toast)) {
+        document.body.removeChild(toast);
+      }
+    }, 3000);
+  }
+
+  private showErrorMessage() {
+
+    const toast = document.createElement('div');
+    toast.innerHTML = '✨ Dogodila se greska prilikom porucivanja! Molim vas kontakritatje me na broj: +381 441 22 16✨';
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(45deg, #ffd700, #ffb347);
+      color: #1a1a2e;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    `;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      if (document.body.contains(toast)) {
+        document.body.removeChild(toast);
+      }
+    }, 3000);
+  }
+
+  private clearForm() {
+    this.contactForm = {
+      name: '',
+      email: '',
+      birthDate: '',
+      birthTime: '',
+      birthPlace: '',
+      productType: '',
+      productCount: this.cartItems.length.toString(),
+      message: ''
+    };
   }
 }

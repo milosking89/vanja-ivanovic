@@ -56,7 +56,7 @@ export class BlogComponent implements OnInit {
     }
   }
 
-async loadPosts() {
+  async loadPosts() {
     if (!this.db) return;
     
     this.isLoading = true;
@@ -70,7 +70,15 @@ async loadPosts() {
         ...doc.data()
       } as BlogPost));
       
-      this.posts = posts;
+      const sorted = posts.sort((a, b) => {
+        const aSeconds = a.createdAt ? a.createdAt.seconds : 0;
+         const bSeconds = b.createdAt ? b.createdAt.seconds : 0;
+        return bSeconds - aSeconds;
+      });
+      
+      this.posts = sorted;
+
+
       console.log(`Loaded ${posts.length} posts`);
       
     } catch (error) {
@@ -116,9 +124,6 @@ async loadPosts() {
     
   }
 
-  expandPost(post: BlogPost) {
-    alert(`📖 Čitanje posta: "${post.title}"\n\n${post.excerpt}\n\n✨ Kategorija: ${post.category}\n📅 Objavljeno: ${post.date}\n\n(Ovde bi bio kompletan sadržaj posta)`);
-  }
 
   private showSuccessMessage() {
     if (!this.isBrowser) return;
@@ -150,5 +155,90 @@ async loadPosts() {
   // Utility metode
   getTotalPosts(): number {
     return this.posts.length;
+  }
+
+    expandedPostId: number | null = null;
+
+  expandPost(post: BlogPost) {
+    const newTab = window.open('', '_blank');
+    if (newTab) {
+      newTab.document.write(`
+      <html>
+        <head>
+          <title>${post.title}</title>
+          <style>
+            body {
+              margin: 0;
+              min-height: 100vh;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              color: #fff;
+            }
+            .container {
+              max-width: 700px;
+              padding: 2rem;
+              margin: 1rem;
+              background: rgba(255, 255, 255, 0.08);
+              border: 1px solid rgba(255, 215, 0, 0.3);
+              border-radius: 20px;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+              box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+              animation: fadeIn 0.4s ease-in-out;
+            }
+            h1 {
+              color: #ffd700;
+              font-size: 2rem;
+              margin-bottom: 0.5rem;
+            }
+            .meta {
+              font-size: 0.9rem;
+              color: rgba(255, 255, 255, 0.7);
+              margin-bottom: 1rem;
+            }
+            .content {
+              font-size: 1.1rem;
+              line-height: 1.6;
+              margin-top: 1rem;
+            }
+            @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(10px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            a.back-link {
+              display: inline-block;
+              margin-top: 1.5rem;
+              text-decoration: none;
+              background: linear-gradient(45deg, #ffd700, #ffb700);
+              color: #1a1a2e;
+              font-weight: bold;
+              padding: 0.6rem 1.2rem;
+              border-radius: 10px;
+              box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+              transition: background 0.3s ease, transform 0.2s ease;
+            }
+            a.back-link:hover {
+              background: linear-gradient(45deg, #ffe44d, #ffc107);
+              transform: scale(1.05);
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>${post.title}</h1>
+            <div class="meta">
+              📅 ${post.date} &nbsp; | &nbsp; ✨ ${post.category}
+            </div>
+            <div class="content">${post.excerpt}</div>
+            <a href="javascript:window.close()" class="back-link">🔙 Zatvori prozor</a>
+          </div>
+        </body>
+      </html>
+    `);
+      newTab.document.close();
+    }
   }
 }

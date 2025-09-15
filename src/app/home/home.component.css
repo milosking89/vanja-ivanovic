@@ -118,6 +118,14 @@
   font-weight: bold;
 }
 
+.result-section {
+  padding-bottom: 20px;
+}
+
+.dice-section {
+  padding-top: 20px;
+}
+
 .roll-button {
   background: linear-gradient(45deg, #ffd700, #ffb347);
   color: #1a1a2e;

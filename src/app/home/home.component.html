@@ -1,4 +1,4 @@
-<div class="dice-container">   
+<div class="dice-container">
 
   <h1>Astrološke Kockice</h1>
   <p class="">Zamisli pitanje na koje želiš da dobiješ odgovor i zavrti astro kockice!</p>
@@ -20,7 +20,7 @@
     </button>
   </div>
 
-@if (reading?.advice) {
+  @if (reading?.advice) {
   <div class="result-section">
     <h3>Vaše čitanje:</h3>
     <div class="reading-card">
@@ -31,19 +31,25 @@
       </div>
     </div>
   </div>
-}
+  }
 
-  <div class="blog-posts" style="margin-top: 20px;">
-    <article *ngFor="let post of blogPosts" class="blog-post">
-      <h3>{{ post.title }}</h3>
+  <div class="blog-posts" *ngIf="!isLoading">
+    <div *ngIf="!latestPost" class="no-posts">
+      <h3>📝 Nema objavljenih postova</h3>
+      <p>Budite prvi koji će podeliti astrološku mudrost!</p>
+    </div>
+
+    <article *ngIf="latestPost" class="blog-post">
+      <h3>{{ latestPost.title }}</h3>
       <div class="post-meta">
-        <span>📅 {{ post.date }}</span>
-        <span>✨ {{ post.category }}</span>
+        <span>📅 {{ latestPost.date }}</span>
+        <span>✨ {{ latestPost.category }}</span>
       </div>
-      <p>{{ post.excerpt }}</p>
+      <p class="post-excerpt">{{ latestPost.excerpt }}</p>
       <div class="read-more">
-        <a href="#" (click)="expandPost(post)" class="btn">Čitaj više</a>
+        <button (click)="expandPost(latestPost)" class="btn btn-read">Čitaj više</button>
       </div>
     </article>
   </div>
+
 </div>
