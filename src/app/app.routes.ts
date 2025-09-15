@@ -5,6 +5,8 @@ import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { BlogComponent } from './blog/blog.component';
 import { ContactComponent } from './contact/contact.component';
+import { PostComponent } from './admin/admin-post/post.component';
+import { AdminAuthGuard } from './admin/admin-auth/admin-auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -12,6 +14,10 @@ export const routes: Routes = [
   { path: 'blog', component: BlogComponent },
   { path: 'product', component: ProductsComponent },
   { path: 'about', component: AboutComponent },
-  //{ path: 'contact', component: ContactComponent },
-  { path: '**', redirectTo: '/home' } // Wildcard route za 404
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'post',
+    loadComponent: () => import('./admin/admin-post/post.component').then(c => c.PostComponent),
+    canActivate: [AdminAuthGuard] 
+  }
 ];

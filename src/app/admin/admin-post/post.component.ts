@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 // Direktan Firebase import
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDocs, orderBy, query, Timestamp } from 'firebase/firestore';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 interface BlogPost {
   id?: string;
@@ -17,13 +17,13 @@ interface BlogPost {
 }
 
 @Component({
-  selector: 'app-blog',
+  selector: 'app-post',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './blog.component.html',
-  styleUrls: ['./blog.component.css']
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.css']
 })
-export class BlogComponent implements OnInit {
+export class PostComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   firebaseStatus = 'Loading...';
@@ -48,36 +48,10 @@ export class BlogComponent implements OnInit {
         const app = initializeApp(environment.firebaseConfig);
         this.db = getFirestore(app);
         this.firebaseStatus = 'Connected';
-        this.loadPosts();
       } catch (error) {
         console.error('Firebase error:', error);
         this.firebaseStatus = 'Error: ' + error;
       }
-    }
-  }
-
-async loadPosts() {
-    if (!this.db) return;
-    
-    this.isLoading = true;
-    this.cdr.detectChanges(); // Prikaži loading state
-    
-    try {
-      const querySnapshot = await getDocs(collection(this.db, 'posts'));
-      
-      let posts = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as BlogPost));
-      
-      this.posts = posts;
-      console.log(`Loaded ${posts.length} posts`);
-      
-    } catch (error) {
-      console.error('Error loading posts:', error);
-    } finally {
-      this.isLoading = false;
-      this.cdr.detectChanges(); // Ažuriraj UI
     }
   }
   
@@ -106,7 +80,6 @@ async loadPosts() {
       };
       
       this.showSuccessMessage();
-      this.loadPosts(); // Reload posts
       
     } catch (error) {
       console.error('Error adding post:', error);

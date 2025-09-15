@@ -1,0 +1,45 @@
+<div class="home-container">
+  <!-- Add Post Section -->
+  <div class="add-post-section" *ngIf="isBrowser">
+    <h3>✍️ Dodaj novi post</h3>
+    <p class="form-description">Podelite svoju astrološku mudrost sa svima!</p>
+    
+    <form class="post-form" (ngSubmit)="addPost()" #postForm="ngForm">
+      <div class="form-group">
+        <label for="title">Naslov posta *</label>
+        <input 
+          id="title"
+          [(ngModel)]="newPost.title" 
+          name="title"
+          placeholder="Unesite naslov vašeg posta..." 
+          class="input-field"
+          required
+          maxlength="100">
+        <small class="char-count">{{ newPost.title.length }}/100</small>
+      </div>
+
+      <div class="form-group">
+        <label for="excerpt">Sadržaj posta *</label>
+        <textarea 
+          id="excerpt"
+          [(ngModel)]="newPost.excerpt" 
+          name="excerpt"
+          placeholder="Napišite vaš post ovde... Podelite svoju astrološku mudrost, savete ili razmišljanja o kosmičkim uticajima."
+          class="input-field textarea"
+          required
+          maxlength="1000"
+          rows="6"></textarea>
+        <small class="char-count">{{ newPost.excerpt.length }}/1000</small>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="isSubmitting || !postForm.form.valid"
+        [class.loading]="isSubmitting">
+        <span *ngIf="!isSubmitting">🚀 Objavi Post</span>
+        <span *ngIf="isSubmitting">📤 Objavljivanje...</span>
+      </button>
+    </form>
+  </div>
+</div>

@@ -13,20 +13,23 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   isLoading = false;
   errorMessage = '';
-  loginForm: FormGroup;  // samo deklaracija
+  loginForm: FormGroup;
+
+  // Definiši svoj email i password ovde
+  private readonly ADMIN_EMAIL = 'milos@gmail.com';
+  private readonly ADMIN_PASSWORD = 'Test123';
 
   constructor(private fb: FormBuilder, private router: Router) {
-    // inicijalizacija forme u konstruktoru
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  // getter za lakši pristup kontrolama
   get email() {
     return this.loginForm.get('email')!;
   }
+
   get password() {
     return this.loginForm.get('password')!;
   }
@@ -37,16 +40,69 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    // simulacija API poziva (1 sekunda)
+    // Simulacija API poziva
     setTimeout(() => {
       this.isLoading = false;
 
       const { email, password } = this.loginForm.value;
-      if (email === 'test@test.com' && password === '123456') {
-        this.router.navigate(['/home']); // preusmeri na /home
+      
+      // Proveri da li se podaci poklapaju sa tvojim
+      if (email === this.ADMIN_EMAIL && password === this.ADMIN_PASSWORD) {
+        // Generiši jedinstveni identifikator (ili koristi neki postojeći)
+        const adminToken = this.generateAdminToken(email);
+        
+        // Sačuvaj u localStorage
+        localStorage.setItem('admin_authenticated', 'true');
+        localStorage.setItem('admin_token', adminToken);
+        localStorage.setItem('admin_email', email);
+        localStorage.setItem('admin_login_time', new Date().toISOString());
+        
+        console.log('Admin uspešno ulogovan:', { email, token: adminToken });
+        
+        // Preusmeri na rutu za kreiranje postova ili admin panel
+        this.router.navigate(['/post/']); // ili gde god želiš
       } else {
         this.errorMessage = 'Pogrešan email ili lozinka.';
       }
     }, 1000);
+  }
+
+  // Generiši jednostavan token na osnovu email-a i vremena
+  private generateAdminToken(email: string): string {
+    const timestamp = Date.now().toString();
+    const baseString = email + timestamp + 'secret-salt';
+    
+    // Jednostavan hash (u produkciji koristi pravu hash funkciju)
+    let hash = 0;
+    for (let i = 0; i < baseString.length; i++) {
+      const char = baseString.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    
+    return `admin_${Math.abs(hash).toString(16)}_${timestamp}`;
+  }
+
+  // Logout funkcija (možeš je pozvati iz bilo kog dela aplikacije)
+  static logout(): void {
+    localStorage.removeItem('admin_authenticated');
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('admin_email');
+    localStorage.removeItem('admin_login_time');
+  }
+
+  // Proveri da li je admin ulogovan (statična metoda za lakše korišćenje)
+  static isAdminAuthenticated(): boolean {
+    return localStorage.getItem('admin_authenticated') === 'true';
+  }
+
+  // Dobij admin email
+  static getAdminEmail(): string | null {
+    return localStorage.getItem('admin_email');
+  }
+
+  // Dobij admin token
+  static getAdminToken(): string | null {
+    return localStorage.getItem('admin_token');
   }
 }
