@@ -1,0 +1,11 @@
+{
+  "routes": {
+    "/vanja-ivanovic": {},
+    "/vanja-ivanovic/about": {},
+    "/vanja-ivanovic/blog": {},
+    "/vanja-ivanovic/home": {},
+    "/vanja-ivanovic/login": {},
+    "/vanja-ivanovic/post": {},
+    "/vanja-ivanovic/product": {}
+  }
+}
