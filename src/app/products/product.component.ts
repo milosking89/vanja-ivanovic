@@ -38,13 +38,13 @@ export class ProductsComponent {
     {
       id: 1,
       name: 'Magične Sveće sa Kristalima',
-      price: 2500,
+      price: 3600,
       description: 'Ručno pravljene sveće obogaćene kristalima'
     },
     {
       id: 2,
       name: 'Personalizovani Mesečni Horoskop',
-      price: 5000,
+      price: 8000,
       description: 'Detaljni mesečni horoskop napisan posebno za vas'
     }
   ];
@@ -156,7 +156,7 @@ export class ProductsComponent {
 
       if (this.isHoroscopeProduct) {
         this.contactForm.productType = 'Pesonalizovani mesecni horoskop';
-        this.addToCart(this.products[1]); // Personalizovani horoskop    
+         this.sendEmail(this.contactForm); // Personalizovani horoskop    
       }
       else {
         this.contactForm.productType = 'Personalizovane svece';

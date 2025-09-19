@@ -36,19 +36,18 @@
         </div>
       </div>
       <div class="product-info">
-        <h3>Magične Sveće sa Kristalima</h3>
+        <h3>Sveća sa kristalima po natalnoj karti</h3>
         <p class="product-description">
-          Ručno pravljene sveće obogaćene kristalima koji pojačavaju astrološke energije.
-          Svaka sveća sadrži pažljivo odabrane kristale koji odgovaraju različitim horoskopskim znakovima
-          i planetarnim uticajima.
+        Personalizovana sveća sa kristalima koji se biraju na osnovu tvoje natalne karte
+        i služi za manifestovanje određene oblasti života
         </p>
         <div class="product-features">
           <span class="feature">🌙 Prirodni vosak</span>
-          <span class="feature">💎 Autentični kristali</span>
-          <span class="feature">⏰ Gorenje 40h</span>
-          <span class="feature">🌟 12 različitih varijanti</span>
+          <span class="feature">💎 Kristali birani po tvojoj natalnoj</span>
+          <span class="feature">⏰ Gorenje 30h</span>
+          <span class="feature">🌟 Upustvo za korišćenje</span>
         </div>
-        <div class="product-price">2,500 din</div>
+        <div class="product-price">3,600 din</div>
         <button (click)="openProductModal()" class="add-to-cart-btn">
           Poruči svecu 📋
         </button>
@@ -67,19 +66,21 @@
         </div>
       </div>
       <div class="product-info">
-        <h3>Konsultacija za Natalnu Kartu</h3>
-        <p class="product-description">
-          Želite detaljnu analizu vaše rođendanske karte? Kontaktirajte me za personalizovanu konsultaciju!
-        </p>
+        <h3>Astrološka Konsultacija</h3>
+
+       
+         <ul class="product-description">
+            <li> Izrada natalne karte </li>
+            <li> Godišnji horoskop </li>
+            <li> Uporedni horoskop </li>
+         </ul>
         <div class="product-features">
-          <span class="feature">📅 izrada 1-2 dana</span>
-          <span class="feature">💝 Personalizovano</span>
-          <span class="feature">📧 Email dostava</span>
-          <span class="feature">📊 Tranzitna analiza</span>
+          <span class="feature">📅 Trajanje konsultacije 1h</span>
+          <span class="feature">📊 Online</span>
         </div>
-        <div class="product-price">5,000 din</div>
+        <div class="product-price">8,000 din</div>
         <button (click)="openHoroscopeModal()" class="add-to-cart-btn">
-          Poruči natalnu kartu 📋
+          Zakaži termin 📋
         </button>
       </div>
     </div>
@@ -89,16 +90,14 @@
 <div class="modal-overlay" *ngIf="showHoroscopeModal" (click)="closeHoroscopeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2 *ngIf="isHoroscopeProduct">🌟 Konsultacija za Natalnu kartu </h2>
-      <h2 *ngIf="!isHoroscopeProduct">🌟 Magične Sveće sa Kristalima</h2>
+      <h2 *ngIf="isHoroscopeProduct">🌟Astrološka Konsultacija </h2>
+      <h2 *ngIf="!isHoroscopeProduct">🌟 Sveća sa kristalima po natalnoj karti</h2>
       <button class="close-btn" (click)="closeHoroscopeModal()">✕</button>
     </div>
 
     <div class="modal-body">
-      <p>Želite detaljnu analizu vaše mesečne prognoze?<br>
-      Unesite vaše podatke za personalizovanu mesečnu konsultaciju ili proizvod!</p>
-
-
+      <p *ngIf="isHoroscopeProduct">Unesite vaše podatke za izradu natalne karte!</p>
+      <p *ngIf="!isHoroscopeProduct">Unesite vaše podatke za odabir kristala!</p>
       <form class="contact-form" (ngSubmit)="submitContactForm()">
         <div class="form-row">
           <div class="form-group">
@@ -135,23 +134,24 @@
 
           <textarea *ngIf="isHoroscopeProduct" [(ngModel)]="contactForm.message" name="message1"
             class="form-input textarea"
-            placeholder="Opišite šta vas posebno zanima ili na čemu biste želeli da se fokusiramo...">
-  </textarea>
+            placeholder="Ostavite kontakt telefon i predložite termin za konsultaciju">
+          </textarea>
 
           <textarea *ngIf="!isHoroscopeProduct" [(ngModel)]="contactForm.message" name="message2"
-            class="form-input textarea" placeholder="Šta želiš da manifestuješ ili oblast za koju želiš sveću">
+            class="form-input textarea" placeholder="Šta želiš da manifestuješ ">
   </textarea>
         </div>
 
-        <button type="submit" class="submit-btn" [disabled]="!isFormValid()">
+        <button *ngIf="!isHoroscopeProduct" type="submit" class="submit-btn" [disabled]="!isFormValid()">
           📧 Dodaj u korpu
+        </button>
+       <button *ngIf="isHoroscopeProduct" type="submit" class="submit-btn" [disabled]="!isFormValid()">
+          📧 Zakaži termin
         </button>
       </form>
 
       <div class="contact-info">
-        <p><strong>💫 Vreme izrade:</strong> 3-5 radnih dana</p>
-        <p><strong>📧 Dostava:</strong> PDF dokument na email</p>
-        <p><strong>🕐 Konsultacija:</strong> 60 minuta (opciono)</p>
+        <p><strong>✔ email:</strong> ivanovicvanja355@yahoo.com</p>
       </div>
     </div>
   </div>

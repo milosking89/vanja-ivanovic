@@ -29,9 +29,10 @@ export class PostComponent implements OnInit {
   firebaseStatus = 'Loading...';
   isBrowser = false;
   isLoading = false;
+    private db: any;
   isSubmitting = false;
   posts: BlogPost[] = [];
-  private db: any;
+
   
   newPost: BlogPost = {
     title: '',

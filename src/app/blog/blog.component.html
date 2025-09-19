@@ -1,18 +1,10 @@
 <div class="home-container">
-  <h1>🌟 Astrološki Blog</h1>
-  <p class="intro">Dobrodošli u svet astrologije! Ovde ćete pronaći najnovije članke o horoskopu, planetama i kosmičkim uticajima.</p>
+  <h1>Dnevni horoskop</h1>
+  <p class="intro">Ovde ćete pronaći najnovije informacije o kosmičkim uticajima.</p>
   
   <!-- Firebase Status (samo za debug) -->
   <div *ngIf="firebaseStatus !== 'Connected'" class="firebase-status">
     Status: {{ firebaseStatus }}
-  </div>
-  
-  <!-- Statistics -->
-  <div class="blog-stats">
-    <div class="stat-item">
-      <span class="stat-number">{{ getTotalPosts() }}</span>
-      <span class="stat-label">Ukupno postova</span>
-    </div>
   </div>
 
   <!-- Loading Indicator -->
@@ -39,5 +31,13 @@
         <button (click)="expandPost(post)" class="btn btn-read">Čitaj više</button>
       </div>
     </article>
+  </div>
+
+    <!-- Statistics -->
+  <div class="blog-stats">
+    <div class="stat-item">
+      <span class="stat-number">{{ getTotalPosts() }}</span>
+      <span class="stat-label">Ukupno postova</span>
+    </div>
   </div>
 </div>

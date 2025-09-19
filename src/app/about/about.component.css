@@ -148,3 +148,11 @@
   content: "🏆 ";
   margin-right: 0.5rem;
 }
+
+.title {
+  font-size: 18px;
+}
+
+.subtitle {
+  text-align: right;
+}

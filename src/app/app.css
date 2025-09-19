@@ -1,19 +1,68 @@
+/* OSNOVNI KONTEJNER */
 .container {
   min-height: 100vh;
   background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
   color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Zvezde gradient */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    /* Zvezde */
+    radial-gradient(1px 1px at 25% 20%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(2px 2px at 45% 35%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 65% 15%, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 85% 40%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 15% 45%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 35% 65%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(2px 2px at 75% 25%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 95% 85%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 5% 75%, rgba(255,255,255,0.5), transparent);
+  animation: twinkle 3s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Meteori */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: -50px;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), -30px -15px 40px rgba(255, 255, 255, 0.3);
+  animation: meteor1 8s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* NAVBAR - GLAVNA DEFINICIJA */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #0d1421, #1a2332, #2c3e50);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1000;
 }
 
+/* BRAND */
 .nav-brand h1 {
   margin: 0;
   font-size: 1.8rem;
@@ -21,11 +70,17 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  z-index: 1001;
+  position: relative;
 }
 
+/* DESKTOP NAVIGATION */
 .nav-links {
   display: flex;
   gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
@@ -34,6 +89,8 @@
   padding: 0.5rem 1rem;
   border-radius: 25px;
   transition: all 0.3s ease;
+  z-index: 1001;
+  position: relative;
 }
 
 .nav-links a:hover,
@@ -42,18 +99,7 @@
   transform: translateY(-2px);
 }
 
-main {
-  min-height: calc(100vh - 120px);
-  padding: 2rem;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
+/* HAMBURGER MENU BUTTON */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -61,6 +107,8 @@ footer {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
+  z-index: 1002;
+  position: relative;
 }
 
 .hamburger span {
@@ -84,45 +132,131 @@ footer {
   transform: rotate(45deg) translate(-5px, -6px);
 }
 
+/* MOBILE MENU */
 .mobile-menu {
-  display: none;
-  background: rgba(26, 26, 46, 0.98);
-  backdrop-filter: blur(10px);
+  position: relative;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(28, 40, 51, 0.98));
+  backdrop-filter: blur(15px);
   border-top: 1px solid rgba(255, 215, 0, 0.3);
   border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-  padding: 1rem 0;
-  transition: all 0.3s ease; /* 👈 DODAJTE smooth tranziciju */
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .mobile-menu.open {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 75px;
-  width: 100%;
-  float: left;
-  left: 0px;
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
+.mobile-menu a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.mobile-menu a:hover {
+  background: rgba(255, 215, 0, 0.1);
+  padding-left: 2.5rem;
+  color: #ffd700;
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+/* MAIN CONTENT */
 main {
   min-height: calc(100vh - 120px);
   padding: 2rem;
-  transition: margin-top 0.3s ease; /* 👈 OVDE */
+  margin-top: -240px;
+  position: relative;
+  z-index: 3;
+  transition: transform 0.3s ease;
 }
 
+/* Kada je mobile menu otvoren, gurni sadržaj dole */
 main.menu-open {
-  margin-top: 250px;
+  transform: translateY(200px); /* Prilagodi vrednost prema visini menija */
 }
 
-.mobile-menu .nav-link {
-  padding: 1rem 2rem;
-  border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-}
-
-/* Media queries */
 @media (max-width: 768px) {
-  .nav-links.desktop-menu {
-    display: none !important; /* 👈 DODAJTE !important */
+  main.menu-open {
+    transform: translateY(250px);
+    padding-top: 1rem;
+  }
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 3;
+}
+
+/* ZVEZDANO NEBO U NAVBAR-U */
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2px 2px at 160px 30px, rgba(255,255,255,0.7), transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  animation: twinkle 3s ease-in-out infinite alternate;
+  z-index: -1;
+}
+
+/* ANIMACIJE */
+@keyframes twinkle {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes meteor1 {
+  0% {
+    transform: translateX(-50px) translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(calc(100vw + 100px)) translateY(300px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 150px)) translateY(350px);
+    opacity: 0;
+  }
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
   }
   
   .hamburger {
@@ -130,11 +264,28 @@ main.menu-open {
   }
   
   .navbar {
-    position: relative;
+    padding: 1rem;
   }
+  
+  .nav-brand h1 {
+    font-size: 1.5rem;
+  }
+  
+  main {
+    padding: 1rem;
+  }
+}
 
-  .mobile-menu.open a {
-    color: #fff;
-     text-decoration: none;
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+  
+  .nav-brand h1 {
+    font-size: 1.3rem;
+  }
+  
+  .mobile-menu a {
+    padding: 1rem 1.5rem;
   }
 }

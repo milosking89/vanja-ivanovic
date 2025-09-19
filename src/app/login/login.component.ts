@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef  } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+
+// Direktan Firebase import
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -15,15 +20,33 @@ export class LoginComponent {
   errorMessage = '';
   loginForm: FormGroup;
 
-  // Definiši svoj email i password ovde
-  private readonly ADMIN_EMAIL = 'milos@gmail.com';
-  private readonly ADMIN_PASSWORD = 'Test123';
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+  firebaseStatus = 'Loading...';
+  isBrowser = false;
+  private db: any;
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    
+    if (this.isBrowser) {
+      try {
+        const app = initializeApp(environment.firebaseConfig);
+        this.db = getFirestore(app);
+        this.firebaseStatus = 'Connected';
+        console.log('Firebase connected successfully');
+      } catch (error) {
+        console.error('Firebase error:', error);
+        this.firebaseStatus = 'Error: ' + error;
+      }
+    }
   }
 
   get email() {
@@ -34,37 +57,106 @@ export class LoginComponent {
     return this.loginForm.get('password')!;
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.loginForm.invalid) return;
 
     this.isLoading = true;
     this.errorMessage = '';
 
-    // Simulacija API poziva
-    setTimeout(() => {
-      this.isLoading = false;
+    const { email, password } = this.loginForm.value;
+    console.log('Trying to login with password:', password);
 
-      const { email, password } = this.loginForm.value;
+    try {
+      // Proveri da li postoji password "123456" u login kolekciji
+      const isValidPassword = await this.checkPasswordInFirestore(password);
       
-      // Proveri da li se podaci poklapaju sa tvojim
-      if (email === this.ADMIN_EMAIL && password === this.ADMIN_PASSWORD) {
-        // Generiši jedinstveni identifikator (ili koristi neki postojeći)
+      if (isValidPassword) {
+        // Password postoji u bazi
         const adminToken = this.generateAdminToken(email);
         
-        // Sačuvaj u localStorage
         localStorage.setItem('admin_authenticated', 'true');
         localStorage.setItem('admin_token', adminToken);
         localStorage.setItem('admin_email', email);
         localStorage.setItem('admin_login_time', new Date().toISOString());
         
-        console.log('Admin uspešno ulogovan:', { email, token: adminToken });
+        this.showSuccessMessage("Uspešno ste se ulogovali!");
         
-        // Preusmeri na rutu za kreiranje postova ili admin panel
-        this.router.navigate(['/post/']); // ili gde god želiš
+        setTimeout(() => {
+          this.router.navigate(['/post/']);
+        }, 1000);
+        
       } else {
-        this.errorMessage = 'Pogrešan email ili lozinka.';
+        this.isLoading = false;
+        this.errorMessage = 'Pogrešan password.';
       }
-    }, 1000);
+      
+    } catch (error) {
+      this.isLoading = false;
+      console.error('Login error:', error);
+      this.errorMessage = 'Greška pri povezivanju sa bazom.';
+    }
+    
+    this.isLoading = false;
+  }
+
+  // Proveri da li postoji password u login kolekciji
+  private async checkPasswordInFirestore(password: string): Promise<boolean> {
+    if (!this.db) return false;
+
+    try {
+      console.log('Checking Firestore for password:', password);
+      
+      const loginRef = collection(this.db, 'login');
+      const snapshot = await getDocs(loginRef);
+      
+      console.log('Found documents in login collection:', snapshot.size);
+      
+      // Proveri da li neki dokument ima password "123456"
+      let passwordExists = false;
+      
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log('Document data:', data);
+        
+        if (data['password'] === password) {
+          passwordExists = true;
+          console.log('Password match found!');
+        }
+      });
+      
+      return passwordExists;
+      
+    } catch (error) {
+      console.error('Firestore error:', error);
+      return false;
+    }
+  }
+
+  private showSuccessMessage(message:string) {
+    if (!this.isBrowser) return;
+    
+    const toast = document.createElement('div');
+    toast.innerHTML = '✨ Uspešno ste se ulogovali! ✨';
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(45deg, #4CAF50, #45a049);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      if (document.body.contains(toast)) {
+        document.body.removeChild(toast);
+      }
+    }, 3000);
   }
 
   // Generiši jednostavan token na osnovu email-a i vremena
