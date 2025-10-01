@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/vanja-ivanovic/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,7 +9,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/index.csr.html"
       }
     ]
   }
