@@ -5,7 +5,6 @@
 
 .home-container h1 {
   text-align: center;
-  font-size: 2.5rem;
   margin-bottom: 1rem;
   margin-top: 0.5rem;
   background: linear-gradient(45deg, #ffd700, #ffb347);
@@ -207,6 +206,12 @@
             margin-top: 1rem;
         }
 
+        .reading-card h2 {
+          text-align: center;
+          margin-bottom: 1rem;
+          opacity: 0.9;
+          color: rgba(255, 255, 255, 0.9);
+        }
 
 /* Blog sekcija */
 .blog-stats {
@@ -490,11 +495,16 @@
   }
 
   .roll-button{
-    font-size: 0.8rem;
+    margin-top: 2rem;
+    font-size: 1rem;
   }
 
-  .dice-grid{
+  .dice-section{
     zoom: 50%
+  }
+
+  .read-more {
+    display: none;
   }
 }
 

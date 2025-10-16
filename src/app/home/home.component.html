@@ -1,9 +1,8 @@
 <div class="home-container">
   <h1>Astrološke Kockice</h1>
-  <div class="intro">Zamisli pitanje na koje želiš da dobiješ odgovor i zavrti astro kockice!</div>
-  <div class="intro">Trudi se da postaviš pitanje na koje je moguće odgovoriti sa DA ili NE.</div>
-  <div class="intro">Svakako, svoj odgovor možeš dodatno protumačiti iz opisa sva tri dobijena simbola, nakon što zavrtiš
-    kockice!</div>
+  <div class="intro">Zamisli pitanje na koje želiš da dobiješ odgovor i zavrti astro kockice! 🎲</div>
+  <div class="intro">Trudi se da postaviš pitanje na koje je moguće odgovoriti sa DA ili NE. ✅❌</div>
+  <div class="intro">Svakako, svoj odgovor možeš dodatno protumačiti iz opisa sva tri dobijena simbola, nakon što zavrtiš kockice! 🔍</div>
 
 <div class="dice-section">
   <div class="dice-grid">
@@ -46,12 +45,11 @@
 </div>
 
   @if (reading?.advice) {
-  <div class="result-section ">
-    <h3>Vaše čitanje:</h3>
+  <div class="result-section">
     <div class="reading-card">
-      <h4>{{ reading?.title }}</h4>
-      <p>{{ reading?.message }}</p>
-      <div class="advice">
+      <h2>{{ reading?.title }}</h2>
+      <div class="intro">{{ reading?.message }}</div>
+      <div class="intro">
         <strong>Savet:</strong> {{ reading?.advice }}
       </div>
     </div>
