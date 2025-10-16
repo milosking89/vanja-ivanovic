@@ -5,6 +5,7 @@
   color: #fff;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 /* Zvezde gradient */
@@ -287,5 +288,9 @@ footer {
   
   .mobile-menu a {
     padding: 1rem 1.5rem;
+  }
+  
+  .dice-section{
+    zoom: 50%;
   }
 }

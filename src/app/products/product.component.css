@@ -102,8 +102,15 @@
 }
 
 .candle-image {
-  background: linear-gradient(135deg, #2a1810, #4a2c1a, #6b3e2a);
-  flex-direction: column;
+  background-image: url('assets/images/sveca.jpg');
+  background-position: center;
+}
+
+.horoscope-image {
+  background-image: url('assets/images/natalna.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .candle-icon {
@@ -126,11 +133,6 @@
 @keyframes flicker {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.8; transform: scale(1.1); }
-}
-
-.horoscope-image {
-  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-  flex-direction: column;
 }
 
 .zodiac-wheel {

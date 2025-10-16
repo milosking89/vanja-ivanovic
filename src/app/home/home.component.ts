@@ -731,7 +731,7 @@ export class HomeComponent {
         this.generateReading();
         this.cd.detectChanges();
       });
-    }, 2000);
+    }, 1000);
   }
 
   private generateReading() {

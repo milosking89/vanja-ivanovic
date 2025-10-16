@@ -1,27 +1,52 @@
-<div class="dice-container">
-
+<div class="home-container">
   <h1>Astrološke Kockice</h1>
-  <p class="">Zamisli pitanje na koje želiš da dobiješ odgovor i zavrti astro kockice!</p>
-  <p class="">Trudi se da postaviš pitanje na koje je moguće odgovoriti sa DA ili NE.</p>
-  <p class="">Svakako, svoj odgovor možeš dodatno protumačiti iz opisa sva tri dobijena simbola, nakon što zavrtiš kockice!</p>
+  <div class="intro">Zamisli pitanje na koje želiš da dobiješ odgovor i zavrti astro kockice!</div>
+  <div class="intro">Trudi se da postaviš pitanje na koje je moguće odgovoriti sa DA ili NE.</div>
+  <div class="intro">Svakako, svoj odgovor možeš dodatno protumačiti iz opisa sva tri dobijena simbola, nakon što zavrtiš
+    kockice!</div>
 
-  <div class="dice-section">
-    <div class="dice-grid">
-      <div class="dice" *ngFor="let dice of dices; let i = index" [class.rolling]="isRolling" (click)="rollDice()">
-        <div class="dice-face">
+<div class="dice-section">
+  <div class="dice-grid">
+    <div class="dice-wrapper" *ngFor="let dice of dices; let i = index">
+      <div class="dice-container" 
+           [class.rolling]="isRolling"
+           (click)="rollDice()">
+        <div class="dice-face face-front">
+          <div class="symbol">{{ dice.symbol }}</div>
+          <div class="name">{{ dice.name }}</div>
+        </div>
+        <div class="dice-face face-back">
+          <div class="symbol">{{ dice.symbol }}</div>
+          <div class="name">{{ dice.name }}</div>
+        </div>
+        <div class="dice-face face-right">
+          <div class="symbol">{{ dice.symbol }}</div>
+          <div class="name">{{ dice.name }}</div>
+        </div>
+        <div class="dice-face face-left">
+          <div class="symbol">{{ dice.symbol }}</div>
+          <div class="name">{{ dice.name }}</div>
+        </div>
+        <div class="dice-face face-top">
+          <div class="symbol">{{ dice.symbol }}</div>
+          <div class="name">{{ dice.name }}</div>
+        </div>
+        <div class="dice-face face-bottom">
           <div class="symbol">{{ dice.symbol }}</div>
           <div class="name">{{ dice.name }}</div>
         </div>
       </div>
+      <div class="dice-label">{{ dice.name }}</div>
     </div>
-
-    <button class="roll-button" (click)="rollDice()" *ngIf="!hasRolled" [disabled]="isRolling">
-      {{ isRolling ? 'Kockice se vrte...' : '🎲 Baci Kockice 🎲' }}
-    </button>
   </div>
 
+  <button class="roll-button" (click)="rollDice()" *ngIf="!hasRolled" [disabled]="isRolling">
+    {{ isRolling ? 'Kockice se vrte...' : '🎲 Baci Kockice 🎲' }}
+  </button>
+</div>
+
   @if (reading?.advice) {
-  <div class="result-section">
+  <div class="result-section ">
     <h3>Vaše čitanje:</h3>
     <div class="reading-card">
       <h4>{{ reading?.title }}</h4>
@@ -51,5 +76,4 @@
       </div>
     </article>
   </div>
-
 </div>
