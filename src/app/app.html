@@ -4,32 +4,32 @@
       <h1>Vanja Ivanović</h1>
     </div>
     <div class="nav-links desktop-menu">
-      <a routerLink="/home" href = "home/" routerLinkActive="active">Home / Astrološke kockice</a>
-      <a routerLink="/blog" href = "blog/" routerLinkActive="active">Dnevni tranziti</a>
-      <a routerLink="/product" href = "product/"  routerLinkActive="active">Proizvodi</a>
-      <a routerLink="/about" href = "about/"  routerLinkActive="active">O Autoru</a>
+      <a routerLink="/home" routerLinkActive="active">Home / Astrološke kockice</a>
+      <a routerLink="/blog" routerLinkActive="active">Dnevni tranziti</a>
+      <a routerLink="/product" routerLinkActive="active">Proizvodi</a>
+      <a routerLink="/about" routerLinkActive="active">O Autoru</a>
     </div>
 
     <!-- Hamburger button -->
-      <button class="hamburger" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      
+    <button class="hamburger" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+
   <!-- Mobile menu -->
-<div class="mobile-menu" [class.open]="isMobileMenuOpen">
-  <a href="/home" (click)="closeMobileMenu()" class="nav-link">Home / Astrološke kockice</a>
-  <a href="/blog" (click)="closeMobileMenu()" class="nav-link">Dnevni tranziti</a>
-  <a href="/product" (click)="closeMobileMenu()" class="nav-link">Proizvodi</a>
-  <a href="/about" (click)="closeMobileMenu()" class="nav-link">O Autoru</a>
-</div>
+  <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+    <a routerLink="/home" (click)="closeMobileMenu()" class="nav-link">Home / Astrološke kockice</a>
+    <a routerLink="/blog" (click)="closeMobileMenu()" class="nav-link">Dnevni tranziti</a>
+    <a routerLink="/product" (click)="closeMobileMenu()" class="nav-link">Proizvodi</a>
+    <a routerLink="/about" (click)="closeMobileMenu()" class="nav-link">O Autoru</a>
+  </div>
   
-  <main [class.menu-open]="isMobileMenuOpen"> <!-- 👈 DODAJTE KLASU -->
-      <router-outlet></router-outlet>
+  <main [class.menu-open]="isMobileMenuOpen">
+    <router-outlet></router-outlet> <!-- ✅ SAMO JEDAN -->
   </main>
-  
+
   <footer>
     <p>&copy; 2025 AstroSite - Vaš vodič kroz zvezde</p>
   </footer>

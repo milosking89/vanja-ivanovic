@@ -33,7 +33,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/vanja-ivanovic/",
+              "baseHref": "/",
               "budgets": [
                 {
                   "type": "initial",

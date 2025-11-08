@@ -9,7 +9,7 @@ import { PostComponent } from './admin/admin-post/post.component';
 import { AdminAuthGuard } from './admin/admin-auth/admin-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'product', component: ProductsComponent },
