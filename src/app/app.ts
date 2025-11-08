@@ -1,24 +1,22 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router'; // 👈 DODAJ RouterLink i RouterLinkActive
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive], // 👈 DODAJ u imports
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('astrology-site');
 
-  isMobileMenuOpen = false; // 👈 DODAJTE OVO
+  isMobileMenuOpen = false;
   
-  // Postojeće navigate funkcije...
-  
-  toggleMobileMenu() { // 👈 DODAJTE OVO
+  toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
   
-  closeMobileMenu() { // 👈 I OVO
+  closeMobileMenu() {
     this.isMobileMenuOpen = false;
   }
 }
