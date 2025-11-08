@@ -325,8 +325,12 @@
   line-height: 1.6;
   margin-bottom: 1.5rem;
   color: rgba(255, 255, 255, 0.9);
+  white-space: normal;        /* Normalno prelamanje */
+  word-break: break-word;     /* Prelama duge reči */
+  overflow-wrap: anywhere;    /* Prelama bilo gde ako treba */
+  max-width: 100%;
+  display: block;
 }
-
 .read-more {
   text-align: right;
 }
@@ -496,6 +500,7 @@
 
   .roll-button{
     margin-top: 2rem;
+    zoom: 130%
   }
 
   .dice-section{

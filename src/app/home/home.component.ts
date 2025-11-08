@@ -857,6 +857,11 @@ export class HomeComponent {
               font-size: 1.1rem;
               line-height: 1.6;
               margin-top: 1rem;
+              white-space: normal;
+              word-break: break-word;
+              overflow-wrap: anywhere;
+              max-width: 100%;
+              display: block;
             }
             @keyframes fadeIn {
               from { opacity: 0; transform: translateY(10px); }

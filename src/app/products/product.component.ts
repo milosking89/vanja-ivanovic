@@ -109,7 +109,7 @@ export class ProductsComponent {
       'template_crcmj5l',
       {
         to_name: 'Vanja Ivanovic',
-        to_email: 'ivanovicvanja355@yahoo.com',
+        to_email: 'vanjaivanovic.info@gmail.com',
         from_name: contactForm.name,
         from_email: contactForm.email,
         birth_date: contactForm.birthDate,
