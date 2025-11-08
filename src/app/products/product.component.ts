@@ -69,7 +69,7 @@ export class ProductsComponent {
 
     this.cartItems.push(productWithForm);
 
-    alert(`✨ ${product.name} je dodato u korpu! ✨`);
+    //alert(`✨ ${product.name} je dodato u korpu! ✨`);
   }
 
 
