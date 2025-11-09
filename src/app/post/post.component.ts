@@ -17,13 +17,13 @@ interface BlogPost {
 }
 
 @Component({
-  selector: 'app-blog',
+  selector: 'app-post',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './blog.component.html',
-  styleUrls: ['./blog.component.css']
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.css']
 })
-export class BlogComponent implements OnInit {
+export class PostComponet implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   firebaseStatus = 'Loading...';
@@ -35,7 +35,7 @@ export class BlogComponent implements OnInit {
   
   newPost: BlogPost = {
     title: '',
-    category: 'Horoskop',
+    category: 'Dnevni tranziti',
     excerpt: '',
     date: ''
   };
@@ -63,7 +63,7 @@ export class BlogComponent implements OnInit {
     this.cdr.detectChanges(); // Prikaži loading state
     
     try {
-      const querySnapshot = await getDocs(collection(this.db, 'blog'));
+      const querySnapshot = await getDocs(collection(this.db, 'posts'));
       
       let posts = querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -77,9 +77,12 @@ export class BlogComponent implements OnInit {
       });
       
       this.posts = sorted;
+
+
+      console.log(`Loaded ${posts.length} blogs`);
       
     } catch (error) {
-      console.error('Error loading posts:', error);
+      console.error('Error loading blogs:', error);
     } finally {
       this.isLoading = false;
       this.cdr.detectChanges(); // Ažuriraj UI
@@ -94,7 +97,7 @@ export class BlogComponent implements OnInit {
 
     this.isSubmitting = true;
     try {
-      await addDoc(collection(this.db, 'posts'), {
+      await addDoc(collection(this.db, 'blog'), {
         title: this.newPost.title.trim(),
         category: this.newPost.category,
         excerpt: this.newPost.excerpt.trim(),
@@ -105,7 +108,7 @@ export class BlogComponent implements OnInit {
       // Resetuj formu
       this.newPost = { 
         title: '', 
-        category: 'Horoskop', 
+        category: 'Dnevni tranziti', 
         excerpt: '', 
         date: '' 
       };
@@ -126,7 +129,7 @@ export class BlogComponent implements OnInit {
     if (!this.isBrowser) return;
     
     const toast = document.createElement('div');
-    toast.innerHTML = '✨ Post je uspešno objavljen! ✨';
+    toast.innerHTML = '✨ Blog je uspešno objavljen! ✨';
     toast.style.cssText = `
       position: fixed;
       top: 20px;

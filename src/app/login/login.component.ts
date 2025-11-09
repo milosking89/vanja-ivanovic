@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 // Direktan Firebase import
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -28,7 +28,7 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -49,8 +49,8 @@ export class LoginComponent {
     }
   }
 
-  get email() {
-    return this.loginForm.get('email')!;
+  get username() {
+    return this.loginForm.get('username')!;
   }
 
   get password() {
@@ -63,80 +63,131 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    const { email, password } = this.loginForm.value;
-    console.log('Trying to login with password:', password);
+    const { username, password } = this.loginForm.value;
+    console.log('Trying to login with:', { username, password });
 
     try {
-      // Proveri da li postoji password "123456" u login kolekciji
-      const isValidPassword = await this.checkPasswordInFirestore(password);
+      // Proveri da li postoje i username i password u login kolekciji
+      const user = await this.checkCredentialsInFirestore(username, password);
       
-      if (isValidPassword) {
-        // Password postoji u bazi
-        const adminToken = this.generateAdminToken(email);
+      if (user) {
+        // Kredencijali su validni
+        const adminToken = this.generateAdminToken(username);
         
         localStorage.setItem('admin_authenticated', 'true');
         localStorage.setItem('admin_token', adminToken);
-        localStorage.setItem('admin_email', email);
+        localStorage.setItem('admin_username', username);
         localStorage.setItem('admin_login_time', new Date().toISOString());
         
         this.showSuccessMessage("Uspešno ste se ulogovali!");
         
         setTimeout(() => {
-          this.router.navigate(['/post/']);
+          this.router.navigate(['/create/']);
         }, 1000);
         
       } else {
-        this.isLoading = false;
-        this.errorMessage = 'Pogrešan password.';
+        this.errorMessage = 'Pogrešan username ili password.';
+        alert(this.errorMessage);
       }
       
     } catch (error) {
-      this.isLoading = false;
       console.error('Login error:', error);
       this.errorMessage = 'Greška pri povezivanju sa bazom.';
+    } finally {
+      this.isLoading = false;
     }
-    
-    this.isLoading = false;
   }
 
-  // Proveri da li postoji password u login kolekciji
-  private async checkPasswordInFirestore(password: string): Promise<boolean> {
-    if (!this.db) return false;
+  // Proveri da li postoje username i password u login kolekciji
+  private async checkCredentialsInFirestore(username: string, password: string): Promise<any> {
+    if (!this.db) {
+      console.error('Database not initialized');
+      return null;
+    }
 
     try {
-      console.log('Checking Firestore for password:', password);
+      console.log('Checking Firestore for credentials:', { username, password });
       
       const loginRef = collection(this.db, 'login');
-      const snapshot = await getDocs(loginRef);
       
-      console.log('Found documents in login collection:', snapshot.size);
+      // Opcija 1: Query sa where clause (efikasniji način)
+      const q = query(
+        loginRef, 
+        where('username', '==', username),
+        where('password', '==', password)
+      );
       
-      // Proveri da li neki dokument ima password "123456"
-      let passwordExists = false;
+      const snapshot = await getDocs(q);
       
-      snapshot.forEach((doc) => {
+      console.log('Found matching documents:', snapshot.size);
+      
+      if (!snapshot.empty) {
+        // Pronađen je korisnik sa ovim kredencijalima
+        const userDoc = snapshot.docs[0];
+        console.log('User found:', userDoc.data());
+        return userDoc.data();
+      }
+      
+      // Opcija 2: Alternativa - učitaj sve i proveri ručno
+      // (koristi ovu opciju ako Firestore indeksi nisu postavljeni)
+      /*
+      const allDocsSnapshot = await getDocs(loginRef);
+      
+      console.log('Total documents in login collection:', allDocsSnapshot.size);
+      
+      let foundUser = null;
+      
+      allDocsSnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log('Document data:', data);
+        console.log('Checking document:', data);
         
-        if (data['password'] === password) {
-          passwordExists = true;
-          console.log('Password match found!');
+        if (data['username'] === username && data['password'] === password) {
+          foundUser = data;
+          console.log('Credentials match found!');
         }
       });
       
-      return passwordExists;
+      return foundUser;
+      */
+      
+      return null;
       
     } catch (error) {
       console.error('Firestore error:', error);
-      return false;
+      
+      // Ako query sa where ne radi, probaj sa drugom opcijom
+      if (error instanceof Error && error.message.includes('index')) {
+        console.warn('Firestore index missing, trying alternative method...');
+        
+        try {
+          const loginRef = collection(this.db, 'login');
+          const allDocsSnapshot = await getDocs(loginRef);
+          
+          let foundUser = null;
+          
+          allDocsSnapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data['username'] === username && data['password'] === password) {
+              foundUser = data;
+            }
+          });
+          
+          return foundUser;
+        } catch (innerError) {
+          console.error('Alternative method also failed:', innerError);
+          return null;
+        }
+      }
+      
+      return null;
     }
   }
 
-  private showSuccessMessage(message:string) {
+  private showSuccessMessage(message: string) {
     if (!this.isBrowser) return;
     
     const toast = document.createElement('div');
-    toast.innerHTML = '✨ Uspešno ste se ulogovali! ✨';
+    toast.innerHTML = `✨ ${message} ✨`;
     toast.style.cssText = `
       position: fixed;
       top: 20px;
@@ -159,10 +210,10 @@ export class LoginComponent {
     }, 3000);
   }
 
-  // Generiši jednostavan token na osnovu email-a i vremena
-  private generateAdminToken(email: string): string {
+  // Generiši jednostavan token na osnovu username-a i vremena
+  private generateAdminToken(username: string): string {
     const timestamp = Date.now().toString();
-    const baseString = email + timestamp + 'secret-salt';
+    const baseString = username + timestamp + 'secret-salt';
     
     // Jednostavan hash (u produkciji koristi pravu hash funkciju)
     let hash = 0;
@@ -179,7 +230,7 @@ export class LoginComponent {
   static logout(): void {
     localStorage.removeItem('admin_authenticated');
     localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin_email');
+    localStorage.removeItem('admin_username');
     localStorage.removeItem('admin_login_time');
   }
 
@@ -188,9 +239,9 @@ export class LoginComponent {
     return localStorage.getItem('admin_authenticated') === 'true';
   }
 
-  // Dobij admin email
-  static getAdminEmail(): string | null {
-    return localStorage.getItem('admin_email');
+  // Dobij admin username
+  static getAdminUsername(): string | null {
+    return localStorage.getItem('admin_username');
   }
 
   // Dobij admin token

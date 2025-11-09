@@ -16,24 +16,28 @@ interface BlogPost {
   createdAt?: any;
 }
 
+type PostType = 'blog' | 'posts';
+
 @Component({
-  selector: 'app-post',
+  selector: 'app-create',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.css']
 })
-export class PostComponent implements OnInit {
+export class CreateComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   firebaseStatus = 'Loading...';
   isBrowser = false;
   isLoading = false;
-    private db: any;
+  private db: any;
   isSubmitting = false;
   posts: BlogPost[] = [];
-
   
+  // Dodato za tip posta
+  postType: PostType = 'posts';
+
   newPost: BlogPost = {
     title: '',
     category: 'Horoskop',
@@ -64,7 +68,8 @@ export class PostComponent implements OnInit {
 
     this.isSubmitting = true;
     try {
-      await addDoc(collection(this.db, 'posts'), {
+      // Dinamički odabir kolekcije na osnovu postType
+      await addDoc(collection(this.db, this.postType), {
         title: this.newPost.title.trim(),
         category: this.newPost.category,
         excerpt: this.newPost.excerpt.trim(),
@@ -87,7 +92,6 @@ export class PostComponent implements OnInit {
       alert('Greška pri dodavanju posta. Pokušajte ponovo.');
     }
     this.isSubmitting = false;
-    
   }
 
   expandPost(post: BlogPost) {
@@ -98,7 +102,7 @@ export class PostComponent implements OnInit {
     if (!this.isBrowser) return;
     
     const toast = document.createElement('div');
-    toast.innerHTML = '✨ Post je uspešno objavljen! ✨';
+    toast.innerHTML = `✨ ${this.postType === 'blog' ? 'Blog post' : 'Post'} je uspešno objavljen! ✨`;
     toast.style.cssText = `
       position: fixed;
       top: 20px;

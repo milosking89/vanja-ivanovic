@@ -5,6 +5,33 @@
     <p class="form-description">Podelite svoju astrološku mudrost sa svima!</p>
     
     <form class="post-form" (ngSubmit)="addPost()" #postForm="ngForm">
+      
+      <!-- Radio buttons za tip posta -->
+      <div class="form-group">
+        <label>Tip objave *</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              [(ngModel)]="postType" 
+              name="postType" 
+              value="posts"
+              required>
+            <span class="radio-text">💬 Dnevni tranziti</span>
+          </label>
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              [(ngModel)]="postType" 
+              name="postType" 
+              value="blog"
+              required>
+            <span class="radio-text">📝 Blog</span>
+          </label>
+          
+        </div>
+      </div>
+
       <div class="form-group">
         <label for="title">Naslov posta *</label>
         <input 
@@ -36,7 +63,7 @@
         class="btn btn-primary"
         [disabled]="isSubmitting || !postForm.form.valid"
         [class.loading]="isSubmitting">
-        <span *ngIf="!isSubmitting">🚀 Objavi Post</span>
+        <span *ngIf="!isSubmitting">🚀 Objavi {{ postType === 'blog' ? 'Blog' : 'Post' }}</span>
         <span *ngIf="isSubmitting">📤 Objavljivanje...</span>
       </button>
     </form>

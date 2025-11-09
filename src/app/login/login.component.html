@@ -1,34 +1,57 @@
-<div class="login-wrapper">
+<div class="login-container">
   <div class="login-card">
-    <h2>Prijava</h2>
-
+    <h2>🔐 Admin Login</h2>
+    
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       
       <div class="form-group">
-        <label for="email">Email:</label>
-        <input id="email" type="email" formControlName="email" />
-        <div class="error" *ngIf="email.invalid && (email.dirty || email.touched)">
-          <small *ngIf="email.errors?.['required']">Email je obavezan.</small>
-          <small *ngIf="email.errors?.['email']">Nevažeći email format.</small>
+        <label for="username">Username</label>
+        <input 
+          id="username"
+          type="text" 
+          formControlName="username"
+          placeholder="Unesite username..."
+          class="input-field"
+          [class.invalid]="username.invalid && username.touched">
+        
+        <div class="error-message" *ngIf="username.invalid && username.touched">
+          <small *ngIf="username.errors?.['required']">Username je obavezan</small>
+          <small *ngIf="username.errors?.['minlength']">Username mora imati najmanje 3 karaktera</small>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">Lozinka:</label>
-        <input id="password" type="password" formControlName="password" />
-        <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
-          <small *ngIf="password.errors?.['required']">Lozinka je obavezna.</small>
-          <small *ngIf="password.errors?.['minlength']">Lozinka mora imati bar 6 karaktera.</small>
+        <label for="password">Password</label>
+        <input 
+          id="password"
+          type="password" 
+          formControlName="password"
+          placeholder="Unesite password..."
+          class="input-field"
+          [class.invalid]="password.invalid && password.touched">
+        
+        <div class="error-message" *ngIf="password.invalid && password.touched">
+          <small *ngIf="password.errors?.['required']">Password je obavezan</small>
+          <small *ngIf="password.errors?.['minlength']">Password mora imati najmanje 6 karaktera</small>
         </div>
       </div>
-
-      <button type="submit" [disabled]="loginForm.invalid || isLoading">
-        {{ isLoading ? "Prijavljivanje..." : "Prijavi se" }}
-      </button>
 
       <div class="error-message" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="isLoading || loginForm.invalid"
+        [class.loading]="isLoading">
+        <span *ngIf="!isLoading">🚀 Uloguj se</span>
+        <span *ngIf="isLoading">🔄 Prijava u toku...</span>
+      </button>
     </form>
+
+    <div class="firebase-status" *ngIf="isBrowser">
+      Status: {{ firebaseStatus }}
+    </div>
   </div>
 </div>
