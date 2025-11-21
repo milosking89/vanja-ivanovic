@@ -26,14 +26,18 @@
         <span>📅 {{ post.date }}</span>
         <span>✨ {{ post.category }}</span>
       </div>
-      <p class="post-excerpt">{{ post.excerpt }}</p>
-      <!-- <div class="read-more">
-        <button (click)="expandPost(post)" class="btn btn-read">Čitaj više</button>
-      </div> -->
+      <p class="post-excerpt" [class.expanded]="expandedPostId === post.id">
+        {{ post.excerpt }}
+      </p>
+      <div class="read-more">
+        <button (click)="toggleExpand(post.id!)" class="btn btn-read">
+          {{ expandedPostId === post.id ? 'Sakrij' : 'Čitaj više' }}
+        </button>
+      </div>
     </article>
   </div>
 
-    <!-- Statistics -->
+  <!-- Statistics -->
   <div class="blog-stats">
     <div class="stat-item">
       <span class="stat-number">{{ getTotalPosts() }}</span>

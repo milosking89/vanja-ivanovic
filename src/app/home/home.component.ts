@@ -794,8 +794,6 @@ export class HomeComponent {
 
       this.latestPost = sorted[0] ?? null; // uzmi samo prvi (najnoviji)
 
-      console.log('Latest post:', this.latestPost);
-
     } catch (error) {
       console.error('Error loading posts:', error);
     } finally {
@@ -811,7 +809,15 @@ export class HomeComponent {
     excerpt: ''
   };
 
-  expandedPostId: number | null = null;
+  expandedPostId: string | null = null;
+
+toggleExpand(postId: string) {
+  if (this.expandedPostId === postId) {
+    this.expandedPostId = null; // Zatvori ako je već otvoreno
+  } else {
+    this.expandedPostId = postId; // Otvori novi
+  }
+}
 
   expandPost(post: BlogPost) {
     const newTab = window.open('', '_blank');

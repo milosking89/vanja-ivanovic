@@ -32,6 +32,7 @@ export class BlogComponent implements OnInit {
   isSubmitting = false;
   posts: BlogPost[] = [];
   private db: any;
+  expandedPostId: string | null = null;
   
   newPost: BlogPost = {
     title: '',
@@ -154,7 +155,13 @@ export class BlogComponent implements OnInit {
     return this.posts.length;
   }
 
-    expandedPostId: number | null = null;
+  toggleExpand(postId: string) {
+  if (this.expandedPostId === postId) {
+    this.expandedPostId = null; // Zatvori ako je već otvoreno
+  } else {
+    this.expandedPostId = postId; // Otvori novi
+  }
+}
 
   expandPost(post: BlogPost) {
     const newTab = window.open('', '_blank');
