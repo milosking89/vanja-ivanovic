@@ -157,7 +157,15 @@ export class PostComponet implements OnInit {
     return this.posts.length;
   }
 
-    expandedPostId: number | null = null;
+  expandedPostId: string | null = null;
+
+  toggleExpand(postId: string) {
+  if (this.expandedPostId === postId) {
+    this.expandedPostId = null; // Zatvori ako je već otvoreno
+  } else {
+    this.expandedPostId = postId; // Otvori novi
+  }
+}
 
   expandPost(post: BlogPost) {
     const newTab = window.open('', '_blank');
