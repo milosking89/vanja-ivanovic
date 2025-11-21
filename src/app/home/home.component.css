@@ -99,7 +99,7 @@
         }
 
         .dice-container.rolling {
-            animation: rollDice 0.8s ease-out;
+            animation: rollDice 1.2s ease-out;
         }
 
         .dice-face {
@@ -143,23 +143,23 @@
             letter-spacing: 1px;
         }
 
-        @keyframes rollDice {
-            0% {
-                transform: rotateY(25deg) rotateX(-20deg) rotateZ(0deg);
-            }
-            25% {
-                transform: rotateY(745deg) rotateX(700deg) rotateZ(360deg);
-            }
-            50% {
-                transform: rotateY(1465deg) rotateX(1400deg) rotateZ(720deg);
-            }
-            75% {
-                transform: rotateY(2185deg) rotateX(2100deg) rotateZ(1080deg);
-            }
-            100% {
-                transform: rotateY(25deg) rotateX(-20deg) rotateZ(1440deg);
-            }
-        }
+          @keyframes rollDice {
+              0% {
+                  transform: rotateY(25deg) rotateX(-20deg) rotateZ(0deg);
+              }
+              25% {
+                  transform: rotateY(385deg) rotateX(360deg) rotateZ(180deg);
+              }
+              50% {
+                  transform: rotateY(745deg) rotateX(720deg) rotateZ(360deg);
+              }
+              75% {
+                  transform: rotateY(1105deg) rotateX(1080deg) rotateZ(540deg);
+              }
+              100% {
+                  transform: rotateY(25deg) rotateX(-20deg) rotateZ(720deg);
+              }
+          }
 
         .dice-label {
             font-size: 0.9rem;
