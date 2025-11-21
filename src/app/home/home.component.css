@@ -531,10 +531,6 @@
   .dice-section{
     zoom: 50%
   }
-
-  .read-more {
-    display: none;
-  }
 }
 
 /* Success Toast Animation */
