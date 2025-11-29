@@ -164,6 +164,9 @@
   max-height: none;
 }
 
+a{
+  color: #ffd700 !important;
+}
 
 .read-more {
   text-align: right;

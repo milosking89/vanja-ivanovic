@@ -26,9 +26,11 @@
         <span>📅 {{ post.date }}</span>
         <span>✨ {{ post.category }}</span>
       </div>
-      <p class="post-excerpt" [class.expanded]="expandedPostId === post.id">
-        {{ post.excerpt }}
-      </p>
+      <!-- Promenjeno sa {{ post.excerpt }} na [innerHTML] -->
+      <div class="post-excerpt" 
+           [class.expanded]="expandedPostId === post.id"
+           [innerHTML]="post.excerpt">
+      </div>
       <div class="read-more">
         <button (click)="toggleExpand(post.id!)" class="btn btn-read">
           {{ expandedPostId === post.id ? 'Sakrij' : 'Čitaj više' }}
