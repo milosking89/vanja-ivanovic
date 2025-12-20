@@ -68,10 +68,10 @@
         <span>📅 {{ latestPost.date }}</span>
         <span>✨ {{ latestPost.category }}</span>
       </div>
-      <p class="post-excerpt">{{ latestPost.excerpt }}</p>
-      <p class="post-excerpt" [class.expanded]="expandedPostId === latestPost.id">
-        {{ latestPost.excerpt }}
-      </p>
+      <div class="post-excerpt" 
+           [class.expanded]="expandedPostId === latestPost.id"
+           [innerHTML]="latestPost.excerpt">
+      </div>
       <div class="read-more">
         <button (click)="toggleExpand(latestPost.id!)" class="btn btn-read">
           {{ expandedPostId === latestPost.id ? 'Sakrij' : 'Čitaj više' }}
