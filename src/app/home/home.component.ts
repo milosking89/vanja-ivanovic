@@ -828,7 +828,7 @@ expandPost(post: BlogPost) {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>${post.title}</title>
-          <!-- Google tag (gtag.js) -->
+           <!-- Google tag (gtag.js) -->
             <script async src="https://www.googletagmanager.com/gtag/js?id=G-XL5G5X9WTV"></script>
             <script>
               window.dataLayer = window.dataLayer || [];
@@ -856,7 +856,8 @@ expandPost(post: BlogPost) {
             }
             
             .container {
-
+              width: 100%;
+              max-width: 800px;
               padding: 2rem;
               background: rgba(255, 255, 255, 0.08);
               border: 1px solid rgba(255, 215, 0, 0.3);
@@ -882,7 +883,15 @@ expandPost(post: BlogPost) {
               flex-wrap: wrap;
               gap: 0.5rem;
             }
-                
+            
+            .content {
+              font-size: clamp(1rem, 2.5vw, 1.15rem);
+              line-height: 1.7;
+              margin-top: 1rem;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+            }
+            
             .close-btn {
               margin-top: 2rem;
               padding: 0.8rem 2rem;
@@ -927,7 +936,6 @@ expandPost(post: BlogPost) {
               .container {
                 padding: 1.5rem;
                 border-radius: 15px;
-                width: 100%;
               }
               
               h1 {
@@ -974,5 +982,4 @@ expandPost(post: BlogPost) {
     newTab.document.close();
   }
 }
-
 }
