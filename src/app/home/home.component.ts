@@ -826,6 +826,15 @@ toggleExpand(postId: string) {
       <html>
         <head>
           <title>${post.title}</title>
+          <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-XL5G5X9WTV"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-XL5G5X9WTV');
+            </script>
           <style>
             body {
               margin: 0;
@@ -906,6 +915,5 @@ toggleExpand(postId: string) {
       newTab.document.close();
     }
   }
-
 
 }

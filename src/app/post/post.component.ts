@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef, ViewEncapsulation  } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -21,7 +21,8 @@ interface BlogPost {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
+    encapsulation: ViewEncapsulation.None 
 })
 export class PostComponet implements OnInit {
   private platformId = inject(PLATFORM_ID);
@@ -157,7 +158,15 @@ export class PostComponet implements OnInit {
     return this.posts.length;
   }
 
-    expandedPostId: number | null = null;
+  expandedPostId: string | null = null;
+
+  toggleExpand(postId: string) {
+  if (this.expandedPostId === postId) {
+    this.expandedPostId = null; // Zatvori ako je već otvoreno
+  } else {
+    this.expandedPostId = postId; // Otvori novi
+  }
+}
 
   expandPost(post: BlogPost) {
     const newTab = window.open('', '_blank');
@@ -166,6 +175,15 @@ export class PostComponet implements OnInit {
       <html>
         <head>
           <title>${post.title}</title>
+          <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-XL5G5X9WTV"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-XL5G5X9WTV');
+            </script>
           <style>
             body {
               margin: 0;
@@ -203,6 +221,11 @@ export class PostComponet implements OnInit {
               font-size: 1.1rem;
               line-height: 1.6;
               margin-top: 1rem;
+              white-space: normal;
+              word-break: break-word;
+              overflow-wrap: anywhere;
+              max-width: 100%;
+              display: block;
             }
             @keyframes fadeIn {
               from { opacity: 0; transform: translateY(10px); }

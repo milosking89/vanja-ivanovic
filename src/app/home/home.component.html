@@ -62,21 +62,21 @@
       <p>Budite prvi koji će podeliti astrološku mudrost!</p>
     </div>
 
-    <article *ngIf="latestPost" class="blog-post">
-      <h3>{{ latestPost.title }}</h3>
-      <div class="post-meta">
-        <span>📅 {{ latestPost.date }}</span>
-        <span>✨ {{ latestPost.category }}</span>
-      </div>
-      <p class="post-excerpt">{{ latestPost.excerpt }}</p>
-      <p class="post-excerpt" [class.expanded]="expandedPostId === latestPost.id">
-        {{ latestPost.excerpt }}
-      </p>
-      <div class="read-more">
-        <button (click)="toggleExpand(latestPost.id!)" class="btn btn-read">
-          {{ expandedPostId === latestPost.id ? 'Sakrij' : 'Čitaj više' }}
-        </button>
-      </div>
-    </article>
+  <article *ngIf="latestPost" class="blog-post">
+    <h3>{{ latestPost.title }}</h3>
+    <div class="post-meta">
+      <span>📅 {{ latestPost.date }}</span>
+      <span>✨ {{ latestPost.category }}</span>
+    </div>
+    <div class="post-excerpt" 
+      [class.expanded]="expandedPostId === latestPost.id" 
+      [innerHTML]="latestPost.excerpt">
+    </div>
+    <div class="read-more">
+      <button (click)="toggleExpand(latestPost.id!)" class="btn btn-read">
+        {{ expandedPostId === latestPost.id ? 'Sakrij' : 'Čitaj više' }}
+      </button>
+    </div>
+  </article>
   </div>
 </div>

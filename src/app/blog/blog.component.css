@@ -164,6 +164,9 @@
   max-height: none;
 }
 
+a{
+  color: #ffd700 !important;
+}
 
 .read-more {
   text-align: right;
@@ -340,9 +343,6 @@
     gap: 0.5rem;
   }
   
-  .read-more {
-    display: none;
-  }
 }
 
 /* Success Toast Animation */
