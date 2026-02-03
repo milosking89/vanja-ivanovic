@@ -164,16 +164,32 @@ export class BlogComponent implements OnInit {
   }
 }
 
-  expandPost(post: BlogPost) {
-    const newTab = window.open('', '_blank');
-    if (newTab) {
-      newTab.document.write(`
+expandPost(post: BlogPost) {
+  const newTab = window.open('', '_blank');
+  if (newTab) {
+    newTab.document.write(`
       <html>
         <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>${post.title}</title>
+          <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-XL5G5X9WTV"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-XL5G5X9WTV');
+            </script>
           <style>
-            body {
+            * {
               margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
+            
+            body {
               min-height: 100vh;
               display: flex;
               align-items: center;
@@ -181,53 +197,108 @@ export class BlogComponent implements OnInit {
               background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
               font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
               color: #fff;
+              padding: 1rem;
             }
+            
             .container {
-              max-width: 700px;
+
               padding: 2rem;
-              margin: 1rem;
               background: rgba(255, 255, 255, 0.08);
               border: 1px solid rgba(255, 215, 0, 0.3);
               border-radius: 20px;
               backdrop-filter: blur(12px);
-              -webkit-backdrop-filter: blur(12px);
               box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
               animation: fadeIn 0.4s ease-in-out;
             }
+            
             h1 {
               color: #ffd700;
-              font-size: 2rem;
-              margin-bottom: 0.5rem;
-            }
-            .meta {
-              font-size: 0.9rem;
-              color: rgba(255, 255, 255, 0.7);
+              font-size: clamp(1.5rem, 5vw, 2.5rem);
               margin-bottom: 1rem;
+              line-height: 1.3;
+              word-wrap: break-word;
             }
-            .content {
-              font-size: 1.1rem;
-              line-height: 1.6;
-              margin-top: 1rem;
+            
+            .meta {
+              font-size: clamp(0.85rem, 2vw, 1rem);
+              color: rgba(255, 255, 255, 0.7);
+              margin-bottom: 1.5rem;
+              display: flex;
+              flex-wrap: wrap;
+              gap: 0.5rem;
             }
-            @keyframes fadeIn {
-              from { opacity: 0; transform: translateY(10px); }
-              to { opacity: 1; transform: translateY(0); }
-            }
-            a.back-link {
-              display: inline-block;
-              margin-top: 1.5rem;
-              text-decoration: none;
+                
+            .close-btn {
+              margin-top: 2rem;
+              padding: 0.8rem 2rem;
+              width: 100%;
+              max-width: 250px;
               background: linear-gradient(45deg, #ffd700, #ffb700);
               color: #1a1a2e;
-              font-weight: bold;
-              padding: 0.6rem 1.2rem;
+              border: none;
               border-radius: 10px;
+              font-size: clamp(0.9rem, 2vw, 1.1rem);
+              font-weight: bold;
+              cursor: pointer;
               box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
-              transition: background 0.3s ease, transform 0.2s ease;
+              transition: all 0.3s ease;
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
             }
-            a.back-link:hover {
+            
+            .close-btn:hover {
               background: linear-gradient(45deg, #ffe44d, #ffc107);
               transform: scale(1.05);
+            }
+            
+            .close-btn:active {
+              transform: scale(0.98);
+            }
+            
+            @keyframes fadeIn {
+              from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+              }
+              to { 
+                opacity: 1; 
+                transform: translateY(0); 
+              }
+            }
+            
+            /* Tablet */
+            @media (max-width: 768px) {
+              .container {
+                padding: 1.5rem;
+                border-radius: 15px;
+                width: 100%;
+              }
+              
+              h1 {
+                margin-bottom: 0.75rem;
+              }
+              
+              .meta {
+                margin-bottom: 1rem;
+              }
+            }
+            
+            /* Mobile */
+            @media (max-width: 480px) {
+              body {
+                padding: 0.5rem;
+              }
+              
+              .container {
+                padding: 1.25rem;
+                border-radius: 12px;
+              }
+              
+              .close-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 1rem;
+              }
             }
           </style>
         </head>
@@ -235,15 +306,18 @@ export class BlogComponent implements OnInit {
           <div class="container">
             <h1>${post.title}</h1>
             <div class="meta">
-              📅 ${post.date} &nbsp; | &nbsp; ✨ ${post.category}
+              <span>📅 ${post.date}</span>
+              <span>•</span>
+              <span>✨ ${post.category}</span>
             </div>
             <div class="content">${post.excerpt}</div>
-            <a href="javascript:window.close()" class="back-link">🔙 Zatvori prozor</a>
+            <button class="close-btn" onclick="window.close()">🔙 Zatvori prozor</button>
           </div>
         </body>
       </html>
     `);
-      newTab.document.close();
-    }
+    newTab.document.close();
   }
+}
+
 }

@@ -27,12 +27,11 @@
         <span>✨ {{ post.category }}</span>
       </div>
       <div class="post-excerpt" 
-           [class.expanded]="expandedPostId === post.id"
-           [innerHTML]="post.excerpt">
+          [innerHTML]="post.excerpt">
       </div>
       <div class="read-more">
-        <button (click)="toggleExpand(post.id!)" class="btn btn-read">
-          {{ expandedPostId === post.id ? 'Sakrij' : 'Čitaj više' }}
+        <button (click)="expandPost(post)" class="btn btn-read">
+          Čitaj više
         </button>
       </div>
     </article>
