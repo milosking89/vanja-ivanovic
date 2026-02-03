@@ -32,8 +32,8 @@
            [innerHTML]="post.excerpt">
       </div>
       <div class="read-more">
-        <button (click)="toggleExpand(post.id!)" class="btn btn-read">
-          {{ expandedPostId === post.id ? 'Sakrij' : 'Čitaj više' }}
+        <button (click)="expandPost(post)" class="btn btn-read">
+          Čitaj više
         </button>
       </div>
     </article>
