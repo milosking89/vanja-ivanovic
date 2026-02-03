@@ -981,4 +981,4 @@ expandPost(post: BlogPost) {
     `);
     newTab.document.close();
   }
-}
+}}

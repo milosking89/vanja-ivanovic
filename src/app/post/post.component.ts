@@ -168,14 +168,6 @@ export class PostComponet implements OnInit {
   }
 }
 
-  toggleExpand(postId: string) {
-  if (this.expandedPostId === postId) {
-    this.expandedPostId = null; // Zatvori ako je već otvoreno
-  } else {
-    this.expandedPostId = postId; // Otvori novi
-  }
-}
-
 expandPost(post: BlogPost) {
   const newTab = window.open('', '_blank');
   if (newTab) {
