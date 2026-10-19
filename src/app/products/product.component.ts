@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import emailjs, { EmailJSResponseStatus, send } from 'emailjs-com';
@@ -38,13 +38,13 @@ export class ProductsComponent {
     {
       id: 1,
       name: 'Magične Sveće sa Kristalima',
-      price: 3600,
+      price: 5000,
       description: 'Ručno pravljene sveće obogaćene kristalima'
     },
     {
       id: 2,
       name: 'Personalizovani Mesečni Horoskop',
-      price: 8000,
+      price: 12000,
       description: 'Detaljni mesečni horoskop napisan posebno za vas'
     }
   ];
@@ -148,6 +148,18 @@ export class ProductsComponent {
 
   closeHoroscopeModal() {
     this.showHoroscopeModal = false;
+  }
+
+  /** Zatvaranje modala tasterom ESC */
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    if (this.showHoroscopeModal) this.closeHoroscopeModal();
+  }
+
+  /** Broj popunjenih obaveznih polja (za traku napretka u modalu) */
+  requiredFilled(): number {
+    const f = this.contactForm;
+    return [f.name, f.email, f.birthDate, f.birthPlace].filter(v => !!v && v.trim() !== '').length;
   }
 
   submitContactForm() {

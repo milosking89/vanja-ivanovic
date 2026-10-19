@@ -184,7 +184,7 @@ main {
   padding: 2rem;
   margin-top: -240px;
   position: relative;
-  z-index: 3;
+  z-index: 4; /* iznad futera (z-index 3), da modal ne bude prekriven */
   transition: transform 0.3s ease;
 }
 

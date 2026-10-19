@@ -1,46 +1,38 @@
-<div class="about-container">
-  <div class="author-card">
-    <div class="author-image">
+<section class="about">
+  <!-- HERO -->
+  <header class="hero">
+    <div class="orbit-wrap" aria-hidden="true">
+      <div class="orbit orbit-1"><span class="planet p1"></span></div>
+      <div class="orbit orbit-2"><span class="planet p2"></span></div>
+      <div class="orbit orbit-3"><span class="planet p3"></span></div>
       <div class="avatar">🔮</div>
     </div>
-    
-    <h1>O Autoru</h1>
-    
-    <div class="bio-section">
-      <h3>Vanja Ivanović</h3>
-      <p class="title">„Negde nešto neverovatno čeka da bude otkriveno.“</p>
-      <div class="subtitle">Carl Edward Sagan</div>
-      <div class="bio-content">
-        <p><span class="spec-icon">💫</span> Astrologiju profesionalno izučavam na Johannes Kepler institutu u Beogradu. Pored toga, doprinos konsultacijama sa klijentima imaju moja učenja u Reiki stilovima (Tradicionalni Reiki, Arhanđeoski, Luna, Kundalini Reiki) kao i Kristaloterapija.</p>
-        <p><span class="spec-icon">⭐</span> Natalna karta je mapa duše koja nas povezuje sa Univerzumom i poljem svih mogućnosti.</p>
-        <p><span class="spec-icon">💫</span> Astrologija nam otkriva pravac kojim je najbolje i najlakše da idemo kroz život. A blokade, nemogućnosti i intenzivni događaji su nam najbolji pokazatelj u čemu treba da se usavršavamo.</p>
-        <p><span class="spec-icon">🔢</span> Svi tekstovi na ovom sajtu su moj autorski rad, zasnovan na višegodišnjem proučavanju i praktičnoj primeni astrologije. Ako te inspiriše jezik kosmosa, ovde ćeš pronaći tekstove koji mogu da te inspirišu i usmere na ličnom putu.</p>
-      
-      </div>
-    </div>
-    
-    <div class="contact-section">
-      <h3>Kontakt</h3>
-      <div class="contact-info">
-        <div class="contact-item">
-          <span class="contact-icon">📧</span>
-          <span>vanjaivanovic.info@gmail.com</span>
+
+    <p class="eyebrow">O autoru</p>
+    <h1 class="name">Vanja Ivanović</h1>
+    <p class="roles">Astrolog</p>
+  </header>
+
+  <!-- CITAT -->
+  <figure class="quote">
+    <span class="quote-mark" aria-hidden="true">“</span>
+    <blockquote>Negde nešto neverovatno čeka da bude otkriveno.</blockquote>
+    <figcaption>— Carl Edward Sagan</figcaption>
+  </figure>
+
+  <!-- PRIČA -->
+  <div class="story">
+    @for (item of story; track item.title; let i = $index) {
+      <article class="story-card" [style.animation-delay.ms]="i * 120">
+        <div class="story-icon">{{ item.icon }}</div>
+        <div>
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.text }}</p>
         </div>
-        <div class="contact-item">
-          <span class="contact-icon">🌐</span>
-          <span>www.astolovers.net</span>
-        </div>
-      </div>
-    </div>
-    
-    <!-- <div class="credentials">
-      <h3>Sertifikati i edukacija</h3>
-      <ul>
-        <li>Diplomirani astrolog - Astrološka škola Beograd (2010)</li>
-        <li>Sertifikat za Horarnu astrologiju - London School of Astrology (2015)</li>
-        <li>Specialist za Vedsku astrologiju - Jyotish Institute India (2018)</li>
-        <li>Član Astrološkog udruženja Srbije</li>
-      </ul>
-    </div> -->
+      </article>
+    }
   </div>
-</div>
+
+  <!-- KONTAKT / CTA (zajednička komponenta, ista kao baner na početnoj) -->
+  <app-consult-banner />
+</section>

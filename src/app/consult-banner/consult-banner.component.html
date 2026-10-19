@@ -1,0 +1,25 @@
+@if (visible()) {
+  <aside class="cta" [attr.role]="mode() === 'popup' ? 'dialog' : null" aria-label="Zakazivanje konsultacije">
+    <div class="cta-glow" aria-hidden="true"></div>
+
+    @if (mode() === 'popup') {
+      <button type="button" class="cta-close" (click)="close()" aria-label="Zatvori">✕</button>
+    }
+
+    <div class="cta-medallion" aria-hidden="true">🔮</div>
+
+    <div class="cta-body">
+      <p class="cta-eyebrow">Konsultacije</p>
+      <h2>Želiš da zaviriš u svoju natalnu kartu?</h2>
+      <p class="cta-text">Zakaži online konsultaciju ili mi piši direktno – odgovaram u najkraćem roku.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a routerLink="/product" class="btn-gold">Zakaži konsultaciju <span aria-hidden="true">→</span></a>
+      <a [href]="'mailto:' + email" class="mail-link">
+        <span class="mail-ico" aria-hidden="true">✉</span>
+        {{ email }}
+      </a>
+    </div>
+  </aside>
+}

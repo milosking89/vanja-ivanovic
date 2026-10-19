@@ -1,0 +1,42 @@
+<div class="dice-container-outer">
+  @if (showIntro()) {
+    <h1>{{ texts.title }}</h1>
+    @for (line of texts.intro; track line) {
+      <div class="intro">{{ line }}</div>
+    }
+  }
+
+  <div class="dice-section">
+    <div class="dice-grid">
+      @for (dice of dices(); track $index) {
+        <div class="dice-wrapper">
+          <div class="dice-container" [class.rolling]="isRolling()" (click)="rollDice()">
+            @for (face of faces; track face) {
+              <div class="dice-face" [class]="'face-' + face">
+                <div class="symbol">{{ dice.symbol }}</div>
+                <div class="name">{{ dice.name }}</div>
+              </div>
+            }
+          </div>
+          <div class="dice-label">{{ dice.name }}</div>
+        </div>
+      }
+    </div>
+
+    @if (!hasRolled()) {
+      <button class="roll-button" (click)="rollDice()" [disabled]="isRolling()">
+        {{ isRolling() ? texts.rollingButton : texts.rollButton }}
+      </button>
+    }
+  </div>
+
+  @if (reading(); as r) {
+    <div class="result-section">
+      <div class="reading-card">
+        <h2>{{ r.title }}</h2>
+        <div class="intro">{{ r.message }}</div>
+        <div class="intro"><strong>Savet:</strong> {{ r.advice }}</div>
+      </div>
+    </div>
+  }
+</div>

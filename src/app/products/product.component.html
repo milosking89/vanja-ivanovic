@@ -44,7 +44,7 @@
           <span class="feature">⏰ Gorenje 30h</span>
           <span class="feature">🌟 Upustvo za korišćenje</span>
         </div>
-        <div class="product-price">3,600 din</div>
+        <div class="product-price">5.000 din</div>
         <button (click)="openProductModal()" class="add-to-cart-btn">
           Poruči svecu 📋
         </button>
@@ -71,7 +71,7 @@
           <span class="feature">📅 Trajanje konsultacije 1h</span>
           <span class="feature">📊 Online</span>
         </div>
-        <div class="product-price">8,000 din</div>
+        <div class="product-price">12.000 din</div>
         <button (click)="openHoroscopeModal()" class="add-to-cart-btn">
           Zakaži termin 📋
         </button>
@@ -80,72 +80,111 @@
   </div>
 </div>
 
-<div class="modal-overlay" *ngIf="showHoroscopeModal" (click)="closeHoroscopeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h2 *ngIf="isHoroscopeProduct">🌟Astrološka Konsultacija </h2>
-      <h2 *ngIf="!isHoroscopeProduct">🌟 Sveća sa kristalima po natalnoj karti</h2>
-      <button class="close-btn" (click)="closeHoroscopeModal()">✕</button>
-    </div>
+<div class="m-overlay" *ngIf="showHoroscopeModal" (click)="closeHoroscopeModal()">
+  <div class="m-card" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <div class="m-stars" aria-hidden="true"></div>
 
-    <div class="modal-body">
-      <p *ngIf="isHoroscopeProduct">Unesite vaše podatke za izradu natalne karte!</p>
-      <p *ngIf="!isHoroscopeProduct">Unesite vaše podatke za odabir kristala!</p>
-      <form class="contact-form" (ngSubmit)="submitContactForm()">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Ime i prezime *</label>
-            <input [(ngModel)]="contactForm.name" name="name" type="text" required class="form-input"
-              placeholder="Vaše ime">
-          </div>
-          <div class="form-group">
-            <label>Email *</label>
-            <input [(ngModel)]="contactForm.email" name="email" type="email" required class="form-input"
-              placeholder="vas@email.com">
-          </div>
+    <button type="button" class="m-close" (click)="closeHoroscopeModal()" aria-label="Zatvori">✕</button>
+
+    <!-- Zaglavlje -->
+    <header class="m-head">
+      <div class="m-title-row">
+        <div class="m-medallion">{{ isHoroscopeProduct ? '🔮' : '🕯️' }}</div>
+        <div class="m-titles">
+          <p class="m-eyebrow">{{ isHoroscopeProduct ? 'Zakazivanje termina' : 'Personalizovana porudžbina' }}</p>
+          <h2>{{ isHoroscopeProduct ? 'Astrološka konsultacija' : 'Sveća sa kristalima' }}</h2>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Datum rođenja *</label>
-            <input [(ngModel)]="contactForm.birthDate" name="birthDate" type="date" required class="form-input">
-          </div>
-          <div class="form-group">
-            <label>Vreme rođenja</label>
-            <input [(ngModel)]="contactForm.birthTime" name="birthTime" type="time" class="form-input">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Mesto rođenja *</label>
-          <input [(ngModel)]="contactForm.birthPlace" name="birthPlace" type="text" required class="form-input"
-            placeholder="Grad, zemlja">
-        </div>
-
-        <div class="form-group">
-          <label>Dodatne informacije</label>
-
-          <textarea *ngIf="isHoroscopeProduct" [(ngModel)]="contactForm.message" name="message1"
-            class="form-input textarea"
-            placeholder="Ostavite kontakt telefon i predložite termin za konsultaciju">
-          </textarea>
-
-          <textarea *ngIf="!isHoroscopeProduct" [(ngModel)]="contactForm.message" name="message2"
-            class="form-input textarea" placeholder="Šta želiš da manifestuješ ">
-  </textarea>
-        </div>
-
-        <button *ngIf="!isHoroscopeProduct" type="submit" class="submit-btn" [disabled]="!isFormValid()">
-          📧 Dodaj u korpu
-        </button>
-       <button *ngIf="isHoroscopeProduct" type="submit" class="submit-btn" [disabled]="!isFormValid()">
-          📧 Zakaži termin
-        </button>
-      </form>
-
-      <div class="contact-info">
-        <p><strong>✔ email:</strong><span>vanjaivanovic.info@gmail.com</span></p>
       </div>
-    </div>
+      <p class="m-sub">
+        {{ isHoroscopeProduct
+          ? 'Unesite podatke o rođenju – na osnovu njih pripremam vašu natalnu kartu.'
+          : 'Unesite podatke o rođenju – po njima biram kristale baš za vas.' }}
+      </p>
+      <div class="m-chips">
+        <ng-container *ngIf="isHoroscopeProduct">
+          <span>⏱ 60 min</span><span>💻 Online</span><span>💛 12.000 din</span>
+        </ng-container>
+        <ng-container *ngIf="!isHoroscopeProduct">
+          <span>🌙 Prirodni vosak</span><span>💎 Kristali po karti</span><span>💛 5.000 din</span>
+        </ng-container>
+      </div>
+    </header>
+
+    <form class="m-form" (ngSubmit)="submitContactForm()">
+      <!-- Korak 1 -->
+      <fieldset class="m-section">
+        <legend><span class="m-step">1</span> Vaši podaci</legend>
+        <div class="m-row">
+          <label class="m-field">
+            <span class="m-label">Ime i prezime <i>*</i></span>
+            <span class="m-input-wrap">
+              <span class="m-ico">👤</span>
+              <input [(ngModel)]="contactForm.name" name="name" type="text" required autocomplete="name" placeholder="Vaše ime">
+            </span>
+          </label>
+          <label class="m-field">
+            <span class="m-label">Email <i>*</i></span>
+            <span class="m-input-wrap">
+              <span class="m-ico">✉️</span>
+              <input [(ngModel)]="contactForm.email" name="email" type="email" required autocomplete="email" placeholder="vas@email.com">
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- Korak 2 -->
+      <fieldset class="m-section">
+        <legend><span class="m-step">2</span> Podaci o rođenju</legend>
+        <div class="m-row m-row-3">
+          <label class="m-field">
+            <span class="m-label">Datum rođenja <i>*</i></span>
+            <span class="m-input-wrap">
+              <span class="m-ico">📅</span>
+              <input [(ngModel)]="contactForm.birthDate" name="birthDate" type="date" required>
+            </span>
+          </label>
+          <label class="m-field">
+            <span class="m-label">Vreme rođenja</span>
+            <span class="m-input-wrap">
+              <span class="m-ico">🕰️</span>
+              <input [(ngModel)]="contactForm.birthTime" name="birthTime" type="time">
+            </span>
+          </label>
+          <label class="m-field">
+            <span class="m-label">Mesto rođenja <i>*</i></span>
+            <span class="m-input-wrap">
+              <span class="m-ico">📍</span>
+              <input [(ngModel)]="contactForm.birthPlace" name="birthPlace" type="text" required placeholder="Grad, zemlja">
+            </span>
+          </label>
+        </div>
+        <p class="m-hint">✦ Što preciznije vreme rođenja, to preciznija karta. Ako ga ne znate, ostavite prazno.</p>
+      </fieldset>
+
+      <!-- Korak 3 -->
+      <fieldset class="m-section">
+        <legend><span class="m-step">3</span> {{ isHoroscopeProduct ? 'Termin i napomena' : 'Vaša namera' }}</legend>
+        <label class="m-field">
+          <span class="m-label">{{ isHoroscopeProduct ? 'Telefon i predlog termina' : 'Šta želite da manifestujete?' }}</span>
+          <textarea *ngIf="isHoroscopeProduct" [(ngModel)]="contactForm.message" name="message1" rows="2"
+            placeholder="Npr. 064 123 4567 – odgovara mi radnim danima posle 17h"></textarea>
+          <textarea *ngIf="!isHoroscopeProduct" [(ngModel)]="contactForm.message" name="message2" rows="2"
+            placeholder="Ljubav, posao, zdravlje, novi početak..."></textarea>
+        </label>
+      </fieldset>
+
+      <!-- Napredak + dugme -->
+      <div class="m-footer">
+        <div class="m-progress" [attr.aria-label]="'Popunjeno ' + requiredFilled() + ' od 4 obavezna polja'">
+          <div class="m-progress-bar"><span [style.width.%]="requiredFilled() * 25"></span></div>
+          <small>{{ requiredFilled() === 4 ? '✨ Sve je spremno!' : 'Obavezna polja: ' + requiredFilled() + '/4' }}</small>
+        </div>
+        <button type="submit" class="m-submit" [disabled]="!isFormValid()">
+          {{ isHoroscopeProduct ? '✨ Zakaži termin' : '🛒 Dodaj u korpu' }}
+        </button>
+      </div>
+    </form>
+
+    <p class="m-contact">Pitanja? Pišite na <a href="mailto:vanjaivanovic.info@gmail.com">vanjaivanovic.info&#64;gmail.com</a></p>
   </div>
 </div>

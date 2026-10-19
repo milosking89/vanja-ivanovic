@@ -8,85 +8,80 @@
   gtag('config', 'G-KEVBSR1RT7');
 </script>
 
-<div class="home-container">
-  <h1>Astrološke Kockice</h1>
-  <div class="intro">Zamisli pitanje na koje želiš da dobiješ odgovor i zavrti astro kockice! 🎲</div>
-  <div class="intro">Trudi se da postaviš pitanje na koje je moguće odgovoriti sa DA ili NE. ✅❌</div>
-  <div class="intro">Svakako, svoj odgovor možeš dodatno protumačiti iz opisa sva tri dobijena simbola, nakon što zavrtiš kockice! 🔍</div>
+<div class="home">
+  <!-- SLIKA + LINK -->
+  <section class="hero">
+    <a class="photo-frame" routerLink="/about" [attr.aria-label]="config.hero.imageAlt + ' – O autoru'">
+      <div class="halo" aria-hidden="true"></div>
+      <div class="hero-photo" role="img" [attr.aria-label]="config.hero.imageAlt"></div>
+      <span class="photo-hint" aria-hidden="true">O autoru →</span>
+      <span class="spark s1" aria-hidden="true">✦</span>
+      <span class="spark s2" aria-hidden="true">✧</span>
+      <span class="spark s3" aria-hidden="true">✦</span>
+    </a>
 
-<div class="dice-section">
-  <div class="dice-grid">
-    <div class="dice-wrapper" *ngFor="let dice of dices; let i = index">
-      <div class="dice-container" 
-           [class.rolling]="isRolling"
-           (click)="rollDice()">
-        <div class="dice-face face-front">
-          <div class="symbol">{{ dice.symbol }}</div>
-          <div class="name">{{ dice.name }}</div>
-        </div>
-        <div class="dice-face face-back">
-          <div class="symbol">{{ dice.symbol }}</div>
-          <div class="name">{{ dice.name }}</div>
-        </div>
-        <div class="dice-face face-right">
-          <div class="symbol">{{ dice.symbol }}</div>
-          <div class="name">{{ dice.name }}</div>
-        </div>
-        <div class="dice-face face-left">
-          <div class="symbol">{{ dice.symbol }}</div>
-          <div class="name">{{ dice.name }}</div>
-        </div>
-        <div class="dice-face face-top">
-          <div class="symbol">{{ dice.symbol }}</div>
-          <div class="name">{{ dice.name }}</div>
-        </div>
-        <div class="dice-face face-bottom">
-          <div class="symbol">{{ dice.symbol }}</div>
-          <div class="name">{{ dice.name }}</div>
-        </div>
+    <p class="eyebrow">{{ config.hero.eyebrow }}</p>
+    <h1 class="hero-title">{{ config.hero.title }}</h1>
+    <p class="hero-sub">{{ config.hero.subtitle }}</p>
+
+    @if (config.link.show) {
+      <a class="hero-link" [href]="config.link.url" target="_blank" rel="noopener">
+        <span class="link-icon">{{ config.link.icon }}</span>
+        {{ config.link.label }}
+      </a>
+    }
+  </section>
+
+  <!-- POSLEDNJI BLOG -->
+  @if (config.latestPost.show) {
+    <section class="latest">
+      <div class="latest-head">
+        <span class="line" aria-hidden="true"></span>
+        <h2>{{ config.latestPost.heading }}</h2>
+        <span class="line" aria-hidden="true"></span>
       </div>
-      <div class="dice-label">{{ dice.name }}</div>
-    </div>
-  </div>
 
-  <button class="roll-button" (click)="rollDice()" *ngIf="!hasRolled" [disabled]="isRolling">
-    {{ isRolling ? 'Kockice se vrte...' : '🎲 Baci Kockice 🎲' }}
-  </button>
-</div>
-
-  @if (reading?.advice) {
-  <div class="result-section">
-    <div class="reading-card">
-      <h2>{{ reading?.title }}</h2>
-      <div class="intro">{{ reading?.message }}</div>
-      <div class="intro">
-        <strong>Savet:</strong> {{ reading?.advice }}
-      </div>
-    </div>
-  </div>
+      @if (isLoading()) {
+        <div class="post-card skeleton" aria-busy="true">
+          <div class="sk sk-title"></div>
+          <div class="sk sk-meta"></div>
+          <div class="sk sk-line"></div>
+          <div class="sk sk-line"></div>
+          <div class="sk sk-line short"></div>
+        </div>
+      } @else if (latestPost(); as post) {
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="badge">✨ {{ post.category }}</span>
+            <span class="date">📅 {{ post.date }}</span>
+          </div>
+          <h3>{{ post.title }}</h3>
+          <div class="post-excerpt" [class.expanded]="expanded()" [innerHTML]="post.excerpt"></div>
+          <div class="post-actions">
+            <button type="button" class="btn-read" (click)="toggleExpand()">
+              {{ expanded() ? 'Sakrij' : 'Čitaj više' }}
+            </button>
+            <a routerLink="/blog" class="all-posts">{{ config.latestPost.allPostsLabel }} →</a>
+          </div>
+        </article>
+      } @else {
+        <p class="empty">{{ config.latestPost.emptyText }}</p>
+      }
+    </section>
   }
 
-  <div class="blog-posts" *ngIf="!isLoading">
-    <div *ngIf="!latestPost" class="no-posts">
-      <h3>📝 Nema objavljenih postova</h3>
-      <p>Budite prvi koji će podeliti astrološku mudrost!</p>
-    </div>
+  <!-- KOCKICE (uključuju se u config/home.config.ts → showDice) -->
+  @if (config.showDice) {
+    <section class="dice-block">
+      <app-astro-dice />
+    </section>
+  }
 
-  <article *ngIf="latestPost" class="blog-post">
-    <h3>{{ latestPost.title }}</h3>
-    <div class="post-meta">
-      <span>📅 {{ latestPost.date }}</span>
-      <span>✨ {{ latestPost.category }}</span>
-    </div>
-    <div class="post-excerpt" 
-      [class.expanded]="expandedPostId === latestPost.id" 
-      [innerHTML]="latestPost.excerpt">
-    </div>
-    <div class="read-more">
-      <button (click)="toggleExpand(latestPost.id!)" class="btn btn-read">
-        {{ expandedPostId === latestPost.id ? 'Sakrij' : 'Čitaj više' }}
-      </button>
-    </div>
-  </article>
-  </div>
+  <!-- BANER ZA KONSULTACIJE (podešavanje: config/home.config.ts → consultPopup) -->
+  @if (config.consultPopup.show) {
+    <app-consult-banner
+      mode="popup"
+      [delaySeconds]="config.consultPopup.delaySeconds"
+      [rememberDismiss]="config.consultPopup.rememberDismiss" />
+  }
 </div>
