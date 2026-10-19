@@ -1,0 +1,109 @@
+[debug] [2026-10-19T17:59:27.108Z] ----------------------------------------------------------------------
+[debug] [2026-10-19T17:59:27.111Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\milos.ivankovic\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2026-10-19T17:59:27.112Z] CLI Version:   14.17.0
+[debug] [2026-10-19T17:59:27.112Z] Platform:      win32
+[debug] [2026-10-19T17:59:27.112Z] Node Version:  v22.17.0
+[debug] [2026-10-19T17:59:27.112Z] Time:          Mon Oct 19 2026 19:59:27 GMT+0200 (Central European Summer Time)
+[debug] [2026-10-19T17:59:27.112Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-10-19T17:59:27.116Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-10-19T17:59:27.395Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-10-19T17:59:27.395Z] > authorizing via signed-in user (milosdevelop89@gmail.com)
+[debug] [2026-10-19T17:59:27.395Z] [iam] checking project vanja-db for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-10-19T17:59:27.396Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:27.397Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:27.397Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T17:59:27.398Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T17:59:27.398Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:28.104Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T17:59:28.104Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:28.105Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions [none]
+[debug] [2026-10-19T17:59:28.105Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions x-goog-quota-user=projects/vanja-db
+[debug] [2026-10-19T17:59:28.105Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-10-19T17:59:28.287Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-10-19T17:59:28.287Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-10-19T17:59:29.275Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions 401
+[debug] [2026-10-19T17:59:29.275Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"CREDENTIALS_MISSING","metadata":{"method":"google.cloudresourcemanager.v1.Projects.TestIamPermissions","service":"cloudresourcemanager.googleapis.com"}}]}}
+[debug] [2026-10-19T17:59:29.275Z] Got a 401 Unauthenticated error for a call that required authentication. Refreshing tokens.
+[debug] [2026-10-19T17:59:29.276Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:29.276Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:29.276Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T17:59:29.276Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T17:59:29.276Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:29.389Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T17:59:29.389Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:29.390Z] [iam] error while checking permissions, command may fail: Request to https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions had HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[debug] [2026-10-19T17:59:29.391Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:29.391Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:29.391Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T17:59:29.392Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T17:59:29.392Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:29.494Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T17:59:29.494Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:29.495Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/vanja-db [none]
+[debug] [2026-10-19T17:59:29.784Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/vanja-db 401
+[debug] [2026-10-19T17:59:29.784Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/vanja-db {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED"}}
+[debug] [2026-10-19T17:59:29.784Z] Got a 401 Unauthenticated error for a call that required authentication. Refreshing tokens.
+[debug] [2026-10-19T17:59:29.784Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:29.784Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T17:59:29.784Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T17:59:29.785Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T17:59:29.785Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:29.897Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T17:59:29.897Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T17:59:29.898Z] Request to https://firebase.googleapis.com/v1beta1/projects/vanja-db had HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[error] 
+[error] Error: Assertion failed: resolving hosting target of a site with no site name or target name. This should have caused an error earlier
+[debug] [2026-10-19T18:00:04.531Z] ----------------------------------------------------------------------
+[debug] [2026-10-19T18:00:04.534Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\milos.ivankovic\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2026-10-19T18:00:04.535Z] CLI Version:   14.17.0
+[debug] [2026-10-19T18:00:04.535Z] Platform:      win32
+[debug] [2026-10-19T18:00:04.535Z] Node Version:  v22.17.0
+[debug] [2026-10-19T18:00:04.535Z] Time:          Mon Oct 19 2026 20:00:04 GMT+0200 (Central European Summer Time)
+[debug] [2026-10-19T18:00:04.536Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-10-19T18:00:04.759Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-10-19T18:00:04.759Z] > authorizing via signed-in user (milosdevelop89@gmail.com)
+[debug] [2026-10-19T18:00:04.760Z] [iam] checking project vanja-db for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-10-19T18:00:04.761Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:04.762Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:04.762Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T18:00:04.764Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T18:00:04.764Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:05.767Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T18:00:05.767Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:05.768Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions [none]
+[debug] [2026-10-19T18:00:05.768Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions x-goog-quota-user=projects/vanja-db
+[debug] [2026-10-19T18:00:05.768Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-10-19T18:00:08.215Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions 401
+[debug] [2026-10-19T18:00:08.216Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"CREDENTIALS_MISSING","metadata":{"method":"google.cloudresourcemanager.v1.Projects.TestIamPermissions","service":"cloudresourcemanager.googleapis.com"}}]}}
+[debug] [2026-10-19T18:00:08.216Z] Got a 401 Unauthenticated error for a call that required authentication. Refreshing tokens.
+[debug] [2026-10-19T18:00:08.216Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:08.216Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:08.216Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T18:00:08.217Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T18:00:08.217Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:08.320Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T18:00:08.320Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:08.322Z] [iam] error while checking permissions, command may fail: Request to https://cloudresourcemanager.googleapis.com/v1/projects/vanja-db:testIamPermissions had HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[debug] [2026-10-19T18:00:08.323Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:08.323Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:08.323Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T18:00:08.323Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T18:00:08.324Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:08.630Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T18:00:08.630Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:08.631Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/vanja-db [none]
+[debug] [2026-10-19T18:00:09.465Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/vanja-db 401
+[debug] [2026-10-19T18:00:09.465Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/vanja-db {"error":{"code":401,"message":"Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.","status":"UNAUTHENTICATED"}}
+[debug] [2026-10-19T18:00:09.465Z] Got a 401 Unauthenticated error for a call that required authentication. Refreshing tokens.
+[debug] [2026-10-19T18:00:09.465Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:09.465Z] Checked if tokens are valid: false, expires at: 1770216812777
+[debug] [2026-10-19T18:00:09.465Z] > refreshing access token with scopes: []
+[debug] [2026-10-19T18:00:09.466Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-10-19T18:00:09.466Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:09.550Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-10-19T18:00:09.550Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-10-19T18:00:09.550Z] Request to https://firebase.googleapis.com/v1beta1/projects/vanja-db had HTTP Error: 401, Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+[error] 
+[error] Error: Assertion failed: resolving hosting target of a site with no site name or target name. This should have caused an error earlier

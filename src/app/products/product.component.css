@@ -113,50 +113,6 @@
   background-repeat: no-repeat;
 }
 
-.candle-icon {
-  font-size: 4rem;
-  margin-bottom: 0.5rem;
-}
-
-.crystals {
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
-}
-
-.flame {
-  position: absolute;
-  top: 20px;
-  font-size: 1.2rem;
-  animation: flicker 2s infinite;
-}
-
-@keyframes flicker {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.1); }
-}
-
-.zodiac-wheel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.zodiac-signs {
-  font-size: 1.5rem;
-  letter-spacing: 0.5rem;
-}
-
-.center-moon {
-  font-size: 3rem;
-  animation: rotate 10s linear infinite;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 /* Proizvod info */
 .product-info h3 {
   color: #ffd700;
@@ -210,99 +166,6 @@
   transform: scale(1.05);
 }
 
-/* Contact sekcija */
-.contact-section {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 3rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-.contact-section h2 {
-  color: #ffd700;
-  text-align: center;
-  margin-bottom: 1rem;
-  font-size: 2rem;
-}
-
-.contact-form {
-  max-width: 800px;
-  margin: 2rem auto;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group label {
-  margin-bottom: 0.5rem;
-  color: #ffd700;
-  font-weight: bold;
-}
-
-.form-input {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 10px;
-  padding: 1rem;
-  color: #fff;
-  font-size: 1rem;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #ffd700;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-}
-
-.textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.submit-btn {
-  width: 100%;
-  background: linear-gradient(45deg, #ffd700, #ffb347);
-  color: #1a1a2e;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 25px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  margin-top: 1rem;
-}
-
-.submit-btn:hover:not(:disabled) {
-  transform: scale(1.02);
-}
-
-.submit-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.contact-info {
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 215, 0, 0.3);
-}
-
-.contact-info p {
-  margin: 0.5rem 0;
-  opacity: 0.9;
-}
-
 .price {
   color: #ffd700;
   font-weight: bold;
@@ -314,13 +177,9 @@
     grid-template-columns: 1fr;
   }
   
-  .form-row {
-    grid-template-columns: 1fr;
-  }
   
-  .contact-section {
-    padding: 2rem 1rem;
-  }
+  
+  
 }
 
 .order-section {
@@ -358,7 +217,7 @@
   background:
     radial-gradient(circle at 50% 30%, rgba(255, 215, 0, 0.08), transparent 60%),
     rgba(6, 10, 22, 0.78);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   animation: m-fade 0.3s ease-out;
 }
 
@@ -372,22 +231,20 @@
 /* Kartica sa rotirajućim zlatnim okvirom */
 .m-card {
   position: relative;
-  width: min(620px, 100%);
+  width: min(744px, 100%);
   max-height: calc(100vh - 5.8rem);
   max-height: calc(100dvh - 5.8rem);
   overflow-y: auto;
-  padding: 1.4rem 1.6rem 1.1rem;
-  border-radius: 24px;
+  padding: 1.68rem 1.92rem 1.32rem;
+  border-radius: 28.8px;
   color: #fff;
   font-family: var(--font-body, 'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif);
   background:
     linear-gradient(160deg, rgba(28, 36, 64, 0.97), rgba(13, 20, 33, 0.98)) padding-box,
     conic-gradient(from var(--m-angle, 0deg), rgba(255, 215, 0, 0.9), rgba(255, 179, 71, 0.1) 25%, rgba(154, 208, 255, 0.5) 50%, rgba(255, 179, 71, 0.1) 75%, rgba(255, 215, 0, 0.9)) border-box;
   border: 1.5px solid transparent;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 60px rgba(255, 215, 0, 0.12);
+  box-shadow: 0 36px 96px rgba(0, 0, 0, 0.55), 0 0 72px rgba(255, 215, 0, 0.12);
   animation: m-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), m-rotate 8s linear infinite;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 215, 0, 0.4) transparent;
 }
 
 @property --m-angle {
@@ -396,33 +253,19 @@
   inherits: false;
 }
 
-.m-stars {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(1.5px 1.5px at 82% 12%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1px 1px at 68% 42%, rgba(255, 255, 255, 0.4), transparent),
-    radial-gradient(1px 1px at 24% 72%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1.5px 1.5px at 90% 86%, rgba(255, 215, 0, 0.6), transparent);
-  animation: m-twinkle 3s ease-in-out infinite alternate;
-}
-
 .m-close {
   position: absolute;
-  top: 0.9rem;
-  right: 0.9rem;
+  top: 1.08rem;
+  right: 1.08rem;
   z-index: 2;
-  width: 32px;
-  height: 32px;
+  width: 38.4px;
+  height: 38.4px;
   padding: 0;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.06);
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 1.02rem;
   cursor: pointer;
   transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
@@ -435,37 +278,37 @@
 /* Zaglavlje */
 .m-head {
   position: relative;
-  margin-bottom: 1rem;
-  padding-right: 2.2rem;
+  margin-bottom: 1.2rem;
+  padding-right: 2.64rem;
 }
 .m-title-row {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 1.08rem;
 }
 .m-medallion {
   flex-shrink: 0;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: grid;
   place-items: center;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #fff3b0, #ffd700 45%, #ff9f43 100%);
-  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.12), 0 0 26px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 0 4.8px rgba(255, 215, 0, 0.12), 0 0 31.2px rgba(255, 215, 0, 0.4);
   animation: m-float 4s ease-in-out infinite;
 }
 .m-eyebrow {
   margin: 0;
-  font-size: 0.66rem;
+  font-size: 0.792rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: #ffd700;
 }
 .m-head h2 {
-  margin: 0.1rem 0 0;
+  margin: 0.12rem 0 0;
   font-family: var(--font-display, 'Cormorant Garamond', Georgia, serif);
-  font-size: 1.75rem;
+  font-size: 2.1rem;
   font-weight: 600;
   line-height: 1.1;
   background: linear-gradient(135deg, #ffe680, #ffd700 40%, #ffb347);
@@ -474,8 +317,8 @@
   -webkit-text-fill-color: transparent;
 }
 .m-sub {
-  margin: 0.7rem 0 0;
-  font-size: 0.88rem;
+  margin: 0.84rem 0 0;
+  font-size: 1.056rem;
   color: rgba(255, 255, 255, 0.72);
   font-weight: 300;
   line-height: 1.45;
@@ -483,13 +326,13 @@
 .m-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.6rem;
+  gap: 0.48rem;
+  margin-top: 0.72rem;
 }
 .m-chips span {
-  padding: 0.22rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.74rem;
+  padding: 0.264rem 0.78rem;
+  border-radius: 1198.8px;
+  font-size: 0.888rem;
   background: rgba(255, 215, 0, 0.1);
   border: 1px solid rgba(255, 215, 0, 0.28);
 }
@@ -500,30 +343,30 @@
 }
 .m-section {
   min-width: 0;
-  margin: 0 0 0.7rem;
-  padding: 0.75rem 0.9rem 0.15rem;
+  margin: 0 0 0.84rem;
+  padding: 0.9rem 1.08rem 0.18rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  border-radius: 19.2px;
   background: rgba(255, 255, 255, 0.03);
 }
 .m-section legend {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0 0.4rem;
+  gap: 0.54rem;
+  padding: 0 0.48rem;
   font-family: var(--font-display, 'Cormorant Garamond', Georgia, serif);
-  font-size: 1.05rem;
+  font-size: 1.26rem;
   font-weight: 600;
   color: #fff;
 }
 .m-step {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: grid;
   place-items: center;
   border-radius: 50%;
   font-family: var(--font-body, system-ui, sans-serif);
-  font-size: 0.7rem;
+  font-size: 0.84rem;
   font-weight: 600;
   color: #1a1a2e;
   background: linear-gradient(135deg, #ffe680, #ffb347);
@@ -532,7 +375,7 @@
 .m-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 0.7rem;
+  gap: 0 0.84rem;
 }
 .m-row-3 {
   grid-template-columns: 1.05fr 0.8fr 1.25fr;
@@ -540,12 +383,12 @@
 .m-field {
   display: block;
   min-width: 0;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.72rem;
 }
 .m-label {
   display: block;
-  margin-bottom: 0.3rem;
-  font-size: 0.72rem;
+  margin-bottom: 0.36rem;
+  font-size: 0.864rem;
   font-weight: 500;
   letter-spacing: 0.03em;
   color: rgba(255, 255, 255, 0.72);
@@ -562,10 +405,10 @@
 }
 .m-ico {
   position: absolute;
-  left: 0.65rem;
+  left: 0.78rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.8rem;
+  font-size: 0.96rem;
   opacity: 0.85;
   pointer-events: none;
 }
@@ -576,29 +419,29 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  height: 40px;
+  height: 48px;
   margin: 0;
-  padding: 0 0.7rem;
-  border-radius: 11px;
+  padding: 0 0.84rem;
+  border-radius: 13.2px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(6, 10, 22, 0.55);
   color: #fff;
   font-family: inherit;
-  font-size: 0.88rem;
+  font-size: 1.056rem;
   color-scheme: dark;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 .m-input-wrap input {
-  padding-left: 2rem;
+  padding-left: 2.4rem;
 }
 .m-field input[type='date'],
 .m-field input[type='time'] {
-  padding-right: 0.4rem;
+  padding-right: 0.48rem;
 }
 .m-field textarea {
   height: auto;
-  min-height: 58px;
-  padding: 0.55rem 0.7rem;
+  min-height: 69.6px;
+  padding: 0.66rem 0.84rem;
   resize: vertical;
   line-height: 1.45;
 }
@@ -606,24 +449,20 @@
 .m-field textarea::placeholder {
   color: rgba(255, 255, 255, 0.38);
 }
-.m-field input:hover,
-.m-field textarea:hover {
-  border-color: rgba(255, 215, 0, 0.35);
-}
 .m-field input:focus,
 .m-field textarea:focus {
   outline: none;
   border-color: #ffd700;
   background: rgba(6, 10, 22, 0.75);
-  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.14), 0 0 18px rgba(255, 215, 0, 0.12);
+  box-shadow: 0 0 0 3.6px rgba(255, 215, 0, 0.14), 0 0 21.6px rgba(255, 215, 0, 0.12);
 }
 .m-field input.ng-touched.ng-invalid {
   border-color: rgba(255, 120, 120, 0.7);
 }
 
 .m-hint {
-  margin: -0.15rem 0 0.6rem;
-  font-size: 0.72rem;
+  margin: -0.15rem 0 0.72rem;
+  font-size: 0.864rem;
   color: rgba(255, 255, 255, 0.5);
 }
 
@@ -631,15 +470,15 @@
 .m-footer {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 0.9rem;
+  gap: 1.2rem;
+  margin-top: 1.08rem;
 }
 .m-progress {
   flex: 1;
 }
 .m-progress-bar {
-  height: 5px;
-  border-radius: 999px;
+  height: 6px;
+  border-radius: 1198.8px;
   background: rgba(255, 255, 255, 0.08);
   overflow: hidden;
 }
@@ -648,13 +487,13 @@
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, #ffb347, #ffd700, #fff3b0);
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 14.4px rgba(255, 215, 0, 0.6);
   transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .m-progress small {
   display: block;
-  margin-top: 0.35rem;
-  font-size: 0.72rem;
+  margin-top: 0.42rem;
+  font-size: 0.864rem;
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -662,15 +501,15 @@
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
-  padding: 0.75rem 1.5rem;
+  padding: 0.9rem 1.8rem;
   border: none;
-  border-radius: 999px;
+  border-radius: 1198.8px;
   font-family: inherit;
-  font-size: 0.92rem;
+  font-size: 1.104rem;
   font-weight: 600;
   color: #1a1a2e;
   background: linear-gradient(135deg, #ffe680, #ffd700 40%, #ffb347);
-  box-shadow: 0 10px 26px rgba(255, 215, 0, 0.32);
+  box-shadow: 0 12px 31.2px rgba(255, 215, 0, 0.32);
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
@@ -684,7 +523,7 @@
 }
 .m-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 16.8px 38.4px rgba(255, 215, 0, 0.5);
 }
 .m-submit:disabled {
   cursor: not-allowed;
@@ -696,23 +535,18 @@
 }
 
 .m-contact {
-  margin: 0.8rem 0 0;
+  margin: 0.96rem 0 0;
   text-align: center;
-  font-size: 0.76rem;
+  font-size: 0.912rem;
   color: rgba(255, 255, 255, 0.5);
 }
 .m-contact a {
   color: #ffd700;
-  text-decoration: none;
 }
-.m-contact a:hover {
-  text-decoration: underline;
-}
-
 /* Animacije */
 @keyframes m-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes m-pop {
-  from { opacity: 0; transform: translateY(24px) scale(0.94); }
+  from { opacity: 0; transform: translateY(28.8px) scale(0.94); }
   to { opacity: 1; transform: none; }
 }
 @keyframes m-rotate { to { --m-angle: 360deg; } }
@@ -720,23 +554,13 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
-@keyframes m-twinkle { from { opacity: 0.5; } to { opacity: 1; } }
 @keyframes m-shimmer {
   0%, 55% { transform: translateX(-120%); }
   100% { transform: translateX(120%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .m-card, .m-medallion, .m-stars, .m-submit::after { animation: none; }
-}
-
-/* Niži ekrani (laptop): malo gušće */
-@media (max-height: 760px) {
-  .m-head { margin-bottom: 0.7rem; }
-  .m-sub { margin-top: 0.5rem; }
-  .m-section { margin-bottom: 0.55rem; }
-  .m-footer { margin-top: 0.6rem; }
-  .m-contact { margin-top: 0.55rem; }
+  .m-card, .m-medallion, .m-submit::after { animation: none; }
 }
 
 /* Tablet: datum i vreme u jednom redu, mesto ispod */
@@ -775,8 +599,24 @@
   .m-field {
     margin-bottom: 0.5rem;
   }
+  /* na telefonu zadržavamo kompaktne veličine */
   .m-field input {
-    height: 38px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  .m-label {
+    font-size: 0.75rem;
+  }
+  .m-medallion {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+  .m-chips span {
+    font-size: 0.75rem;
+  }
+  .m-section legend {
+    font-size: 1.1rem;
   }
   .m-footer {
     gap: 0.5rem;
